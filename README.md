@@ -1,6 +1,19 @@
 # 🐋 Whale Voyage
 
-> 你跑 agent 的时候，有只鲸鱼在旁边替你看着海。
+<p align="center">
+  <img src="docs/hero.png" alt="Whale Voyage" width="800">
+</p>
+
+<p align="center">
+  <b>你跑 agent 的时候，有只鲸鱼在旁边替你看着海。</b>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License">
+  <img src="https://img.shields.io/badge/tokens-zero-brightgreen.svg" alt="Zero Tokens">
+  <img src="https://img.shields.io/badge/tests-63%2F63-success.svg" alt="Tests">
+  <img src="https://img.shields.io/badge/platform-dsh-orange.svg" alt="Platform">
+</p>
 
 ---
 
@@ -18,7 +31,11 @@ Whale Voyage 在对话区养了一只小鲸鱼。agent 在干活的时候，它�
 
 ---
 
-## 长什么样
+## 效果演示
+
+<p align="center">
+  <img src="docs/demo.gif" alt="Demo" width="600">
+</p>
 
 | 主界面（右下角飘着鲸鱼） | 相册（明信片图鉴） |
 | --- | --- |
