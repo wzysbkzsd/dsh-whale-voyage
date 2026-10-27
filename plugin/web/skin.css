@@ -1,0 +1,1197 @@
+/* 伴航皮肤 v2 —— 对话区即海面：鲸在对话中，状态驱动界面自适应（全部锚定 body.wv-skin） */
+
+/* ---------- 主题变量层（亮色：平静海面） ---------- */
+body.wv-skin {
+  --dsw-alias-bg-base: rgb(250, 248, 242);
+  --dsw-alias-bg-layer-1: rgb(252, 250, 246);
+  --dsw-alias-bg-layer-2: rgb(247, 244, 236);
+  --dsw-alias-bg-layer-3: rgb(243, 240, 231);
+  --dsw-alias-bg-overlay: rgb(238, 242, 240);
+  --dsw-alias-label-primary: rgb(58, 74, 90);
+  --dsw-alias-label-secondary: rgb(96, 112, 122);
+  --dsw-alias-label-tertiary: rgb(129, 143, 152);
+  --dsw-alias-border-l1: rgba(58, 74, 90, 0.06);
+  --dsw-alias-border-l2: rgba(58, 74, 90, 0.10);
+  --dsw-alias-border-l3: rgba(58, 74, 90, 0.14);
+  --dsw-alias-brand-primary: rgb(61, 91, 224);
+  --dsw-specific-bubble: rgb(233, 244, 243);
+  --dsw-specific-bubble-highlight: rgb(209, 233, 229);
+  --dsw-specific-sidebar-fill: rgb(240, 246, 243);
+  --dsw-specific-input-major: rgb(255, 253, 248);
+  --dsw-alias-interactive-bg-hover: rgba(77, 107, 254, 0.06);
+  --dsw-alias-interactive-bg-active: rgba(77, 107, 254, 0.10);
+}
+
+/* ---------- 主题变量层（暗色：夜航） ---------- */
+body.wv-skin[data-ds-dark-theme] {
+  --dsw-alias-bg-base: rgb(18, 28, 38);
+  --dsw-alias-bg-layer-1: rgb(21, 32, 44);
+  --dsw-alias-bg-layer-2: rgb(25, 38, 52);
+  --dsw-alias-bg-layer-3: rgb(29, 44, 60);
+  --dsw-alias-bg-overlay: rgb(23, 35, 48);
+  --dsw-alias-label-primary: rgb(222, 233, 238);
+  --dsw-alias-label-secondary: rgb(166, 182, 192);
+  --dsw-alias-label-tertiary: rgb(131, 149, 160);
+  --dsw-alias-border-l1: rgba(160, 190, 205, 0.10);
+  --dsw-alias-border-l2: rgba(160, 190, 205, 0.16);
+  --dsw-alias-border-l3: rgba(160, 190, 205, 0.22);
+  --dsw-alias-brand-primary: rgb(103, 138, 255);
+  --dsw-specific-bubble: rgb(28, 44, 62);
+  --dsw-specific-bubble-highlight: rgb(38, 58, 82);
+  --dsw-specific-sidebar-fill: rgb(16, 25, 35);
+  --dsw-specific-input-major: rgb(22, 34, 47);
+}
+
+/* ---------- 相位自适应：深潜（对话区沉入更深的水色） ---------- */
+/* 深潜相位不再改写宿主的背景变量：CSS 变量变更不参与 transition，
+   整页底色会瞬变，观感就是"闪一下"。氛围改由可过渡的 .wv-tint 层承担。
+   这里只留气泡配色（局部、不影响正文底色）。 */
+body.wv-skin[data-wv-phase="away"] {
+  --dsw-specific-bubble: rgb(224, 240, 239);
+  --dsw-specific-bubble-highlight: rgb(199, 229, 227);
+}
+body.wv-skin[data-ds-dark-theme][data-wv-phase="away"] {
+  --dsw-specific-bubble: rgb(23, 38, 55);
+}
+
+/* ---------- 相位自适应：求助（珊瑚暖色 + 输入框光圈） ---------- */
+body.wv-skin[data-wv-phase="helping"] {
+  --dsw-specific-bubble: rgb(250, 240, 230);
+  --dsw-specific-bubble-highlight: rgb(247, 224, 205);
+  --dsw-alias-interactive-bg-hover: rgba(242, 149, 107, 0.08);
+  --dsw-alias-interactive-bg-active: rgba(242, 149, 107, 0.12);
+}
+body.wv-skin[data-ds-dark-theme][data-wv-phase="helping"] {
+  --dsw-specific-bubble: rgb(45, 38, 30);
+  --dsw-specific-bubble-highlight: rgb(66, 50, 36);
+}
+body.wv-skin[data-wv-phase="helping"] [data-composer-card="true"] {
+  box-shadow: 0 0 0 2px rgba(242, 149, 107, 0.55), 0 10px 28px rgba(242, 149, 107, 0.22) !important;
+}
+
+/* ---------- 新会话欢迎页（hero 相位）：海面主景 ---------- */
+body.wv-skin [data-slot="conversation"] .wSkVaW_root[data-phase="hero"] {
+  background:
+    linear-gradient(180deg, rgba(250, 248, 242, 0.55) 0%, rgba(250, 248, 242, 0.85) 100%),
+    url('/whale-voyage/assets/art/home.jpg') center 40% / cover no-repeat;
+  border-radius: 12px;
+}
+body.wv-skin[data-ds-dark-theme] [data-slot="conversation"] .wSkVaW_root[data-phase="hero"] {
+  background:
+    linear-gradient(180deg, rgba(18, 28, 38, 0.62) 0%, rgba(18, 28, 38, 0.88) 100%),
+    url('/whale-voyage/assets/art/home.jpg') center 40% / cover no-repeat;
+}
+
+/* ---------- 工具卡运行扫光：鲸蓝洋流 ---------- */
+body.wv-skin .o3BgMG_root[data-state="running"] .o3BgMG_row::after {
+  background: linear-gradient(90deg, transparent, rgba(77, 107, 254, 0.22), transparent) !important;
+}
+body.wv-skin .CY-8Ka_root[data-state="running"] .CY-8Ka_row::after {
+  background: linear-gradient(90deg, transparent, rgba(77, 107, 254, 0.22), transparent) !important;
+}
+
+/* ---------- 深潜气泡层（away 相位，对话区内缓缓上浮） ---------- */
+.wv-bubbles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  /* 常驻布局，显隐交给 opacity（见文件末尾 v12 段），否则过渡不生效 */
+  z-index: 1;
+}
+/* 显隐规则见文件末尾 v12 段 */
+.wv-bubbles i {
+  position: absolute;
+  bottom: -24px;
+  left: var(--x);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(120, 170, 200, 0.16);
+  box-shadow: inset 0 0 0 1.5px rgba(160, 205, 230, 0.35);
+  animation: wv-rise 8s linear infinite;
+  animation-delay: var(--d);
+}
+.wv-bubbles i:nth-child(3n) { width: 6px; height: 6px; }
+.wv-bubbles i:nth-child(4n) { width: 14px; height: 14px; }
+@keyframes wv-rise {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  12% { opacity: 0.9; }
+  85% { opacity: 0.5; }
+  100% { transform: translateY(-72vh) translateX(14px); opacity: 0; }
+}
+
+/* ---------- 鲸（存在于对话区，输入框右上方） ---------- */
+.wv-whale {
+  position: absolute;
+  right: 22px;
+  bottom: 168px;
+  z-index: 5;
+  width: 116px;
+  text-align: center;
+  user-select: none;
+  cursor: pointer;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+  animation: wv-bob 4s ease-in-out infinite;
+}
+.wv-whale.wv-fixed { position: fixed; }
+
+.wv-figure {
+  position: relative;
+  width: 116px;
+  height: 152px;
+  margin: 0 auto;
+}
+/* 两层叠加：交叉淡入换姿态。object-position 贴底保证各姿态同基线 */
+.wv-whale-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  opacity: 0;
+  transition: opacity 0.42s ease;
+  filter: drop-shadow(0 10px 16px rgba(29, 52, 128, 0.30));
+}
+.wv-whale-art.is-on { opacity: 1; }
+
+.wv-whale-ripple {
+  position: relative;
+  width: 72px;
+  height: 12px;
+  margin: 2px auto 0;
+  border-radius: 50%;
+  border: 2px solid rgba(120, 170, 200, 0.5);
+  animation: wv-ripple 2.6s ease-out infinite;
+}
+
+.wv-whale-badge {
+  position: absolute;
+  top: -6px;
+  right: 6px;
+  font-size: 22px;
+  animation: wv-badge 1.1s ease-in-out infinite;
+}
+
+.wv-whale-tag {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: rgb(58, 74, 90);
+  background: rgba(255, 253, 248, 0.9);
+  border: 1px solid rgba(58, 74, 90, 0.10);
+  border-radius: 999px;
+  padding: 1px 9px;
+  max-width: 170px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 3px 10px rgba(58, 74, 90, 0.14);
+}
+body[data-ds-dark-theme] .wv-whale-tag {
+  color: rgb(222, 233, 238);
+  background: rgba(22, 34, 47, 0.92);
+  border-color: rgba(160, 190, 205, 0.18);
+}
+.wv-whale-tag:empty { display: none; }
+
+/* 三态演出：位移与姿态一律由 v7 的 .wv-figure 规则负责（见文件末尾）。
+   历史版本曾在此把整只鲸缩到 0.6 并降透明度，视觉上被读作"虚化/坏图"，已移除。 */
+.wv-whale[data-state="helping"] .wv-whale-tag {
+  border-color: rgba(242, 149, 107, 0.6);
+}
+
+@keyframes wv-bob {
+  0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+  50% { transform: translateY(-6px) rotate(1deg); }
+}
+@keyframes wv-dive {
+  0%, 100% { transform: translateY(46px) scale(0.6) rotate(-7deg); }
+  50% { transform: translateY(52px) scale(0.6) rotate(-12deg); }
+}
+@keyframes wv-shake {
+  0%, 100% { transform: translateY(-10px) rotate(0); }
+  25% { transform: translateY(-12px) rotate(-4deg); }
+  75% { transform: translateY(-12px) rotate(4deg); }
+}
+@keyframes wv-badge {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50% { transform: translateY(-4px) rotate(6deg); }
+}
+@keyframes wv-ripple {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* ---------- 右下角子页按钮（相册 + 航海日志） ---------- */
+.wv-corner {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 9990;
+  font-family: "PingFang SC", "Hiragino Sans GB", "Segoe UI", system-ui, sans-serif;
+  font-size: 13px;
+  color: #fff;
+  background: rgb(77, 107, 254);
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(29, 52, 128, 0.35);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.wv-corner:hover { background: rgb(61, 91, 224); transform: translateY(-1px); }
+
+/* ---------- 子页面板（弹出式，非跳转） ---------- */
+.wv-panel {
+  position: fixed;
+  right: 18px;
+  bottom: 64px;
+  z-index: 9995;
+  width: min(760px, 94vw);
+  height: min(78vh, 720px);
+  display: flex;
+  flex-direction: column;
+  background: rgb(255, 253, 248);
+  border: 1px solid rgba(58, 74, 90, 0.12);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(20, 40, 60, 0.30);
+}
+.wv-panel[hidden] { display: none; }
+body[data-ds-dark-theme] .wv-panel {
+  background: rgb(22, 34, 47);
+  border-color: rgba(160, 190, 205, 0.18);
+}
+.wv-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgb(58, 74, 90);
+  border-bottom: 1px solid rgba(58, 74, 90, 0.10);
+  font-family: "PingFang SC", "Hiragino Sans GB", "Segoe UI", system-ui, sans-serif;
+}
+body[data-ds-dark-theme] .wv-panel-head { color: rgb(222, 233, 238); border-color: rgba(160, 190, 205, 0.15); }
+.wv-panel-close {
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  color: inherit;
+  cursor: pointer;
+  padding: 2px 8px;
+  border-radius: 8px;
+}
+.wv-panel-close:hover { background: rgba(58, 74, 90, 0.08); }
+.wv-panel-frame { flex: 1; width: 100%; border: 0; background: transparent; }
+
+/* ---------- 明信片 toast ---------- */
+.wv-toast {
+  position: fixed;
+  right: 18px;
+  bottom: 64px;
+  z-index: 9999;
+  max-width: 280px;
+  font-family: "PingFang SC", "Hiragino Sans GB", "Segoe UI", system-ui, sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #fff;
+  background: rgba(58, 74, 90, 0.92);
+  border-radius: 10px;
+  padding: 8px 14px;
+  box-shadow: 0 8px 22px rgba(29, 52, 128, 0.25);
+  animation: wv-toast-in 0.4s ease-out;
+}
+.wv-toast[hidden] { display: none; }
+@keyframes wv-toast-in {
+  0% { transform: translateY(10px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* ---------- 鲸的互动、拖拽与成长配件（v3） ---------- */
+
+.wv-whale[hidden] { display: none; }
+.wv-whale.wv-free { position: fixed; right: auto; bottom: auto; }
+.wv-whale .wv-figure { position: relative; cursor: grab; touch-action: none; }
+.wv-whale.wv-dragging .wv-figure, .wv-whale .wv-figure:active { cursor: grabbing; }
+/* hover 只加一点阴影与极轻微抬升，绝不改缩放：
+   此前 hover 的 transform 权重更高，会整条替换掉姿态缩放（深潜 0.86 → 1.03），
+   鼠标一扫就突然放大两成，观感混乱且没有质感。 */
+.wv-whale .wv-whale-art {
+  transform: translateY(var(--wv-lift, 0px)) scale(var(--wv-pose-scale, 1));
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), filter 0.35s ease;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+.wv-whale .wv-figure:hover .wv-whale-art {
+  --wv-lift: -2px;
+  filter: drop-shadow(0 12px 20px rgba(29, 52, 128, 0.38));
+}
+
+/* 关闭按钮（hover 才出现，替代原先的隐蔽双击） */
+.wv-dismiss {
+  position: absolute; top: -6px; left: -6px;
+  width: 20px; height: 20px;
+  border: none; border-radius: 50%;
+  background: rgba(58, 74, 90, 0.82); color: #fff;
+  font-size: 11px; line-height: 1; cursor: pointer;
+  opacity: 0; transform: scale(0.8);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 3;
+}
+.wv-whale:hover .wv-dismiss { opacity: 1; transform: scale(1); }
+
+/* 说话气泡 */
+.wv-say {
+  position: absolute; bottom: 100%; left: 50%;
+  transform: translate(-50%, -6px);
+  /* 绝对定位元素在窄容器里会被收缩到极窄（实测一字一行），
+     必须用 max-content 摆脱 shrink-to-fit 约束 */
+  width: max-content;
+  min-width: 96px;
+  max-width: 208px;
+  padding: 6px 12px;
+  font-size: 12px; line-height: 1.5;
+  color: rgb(48, 62, 76);
+  background: rgba(255, 253, 248, 0.97);
+  border: 1px solid rgba(58, 74, 90, 0.12);
+  border-radius: 12px 12px 12px 4px;
+  box-shadow: 0 6px 18px rgba(29, 52, 128, 0.18);
+  white-space: normal;
+  animation: wv-say-in 0.28s ease-out;
+  z-index: 4;
+}
+.wv-say[hidden] { display: none; }
+body[data-ds-dark-theme] .wv-say {
+  color: rgb(226, 236, 240);
+  background: rgba(24, 37, 51, 0.97);
+  border-color: rgba(160, 190, 205, 0.2);
+}
+@keyframes wv-say-in {
+  0% { transform: translate(-50%, 4px); opacity: 0; }
+  100% { transform: translate(-50%, -6px); opacity: 1; }
+}
+
+/* 状态条改为可点按钮（听它讲历史） */
+.wv-whale-tag {
+  border: 1px solid rgba(58, 74, 90, 0.10);
+  cursor: pointer;
+  font-family: inherit;
+}
+.wv-whale-tag:hover { background: rgba(255, 255, 255, 0.98); }
+
+/* 摸头爱心 */
+.wv-heart {
+  position: absolute; left: 50%; top: 34%;
+  font-size: 14px; color: rgb(242, 121, 137);
+  pointer-events: none;
+  animation: wv-heart-up 1.3s ease-out forwards;
+  animation-delay: var(--d, 0s);
+  opacity: 0;
+}
+@keyframes wv-heart-up {
+  0% { transform: translate(-50%, 0) scale(0.6); opacity: 0; }
+  25% { opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--dx, 0px)), -46px) scale(1.1); opacity: 0; }
+}
+
+/* 成长配件（按亲密度等级显示；纯 CSS/emoji 叠加，零美术成本） */
+.wv-acc { position: absolute; opacity: 0; transition: opacity 0.4s ease; pointer-events: none; }
+.wv-acc-scarf {
+  left: 26%; top: 58%;
+  width: 46%; height: 9px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #f2956b, #e8734a);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+  transform: rotate(-4deg);
+}
+.wv-acc-lamp { right: -4px; top: 40%; font-size: 15px; animation: wv-lamp 3s ease-in-out infinite; }
+.wv-acc-hat { left: 40%; top: -6px; font-size: 15px; transform: rotate(-12deg); }
+.wv-acc-medal { left: 24%; top: 66%; font-size: 13px; }
+.wv-whale[data-level="2"] .wv-acc-scarf,
+.wv-whale[data-level="3"] .wv-acc-scarf,
+.wv-whale[data-level="4"] .wv-acc-scarf { opacity: 1; }
+.wv-whale[data-level="3"] .wv-acc-lamp,
+.wv-whale[data-level="4"] .wv-acc-lamp { opacity: 1; }
+.wv-whale[data-level="3"] .wv-acc-hat,
+.wv-whale[data-level="4"] .wv-acc-hat { opacity: 1; }
+.wv-whale[data-level="4"] .wv-acc-medal { opacity: 1; }
+@keyframes wv-lamp {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50% { transform: translateY(-3px) rotate(6deg); }
+}
+
+/* 家书徽标位置随 figure */
+.wv-figure .wv-badge { position: absolute; top: -8px; right: -2px; font-size: 20px; }
+
+/* ---------- 左栏会话行的航迹标记 ---------- */
+.wv-row-mark {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+  font-size: 12px;
+  line-height: 1;
+  opacity: 0.95;
+  animation: wv-mark-in 0.3s ease-out;
+  vertical-align: middle;
+}
+@keyframes wv-mark-in {
+  0% { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 0.95; }
+}
+
+
+/* ==========================================================================
+   形象一致性（v4）：全程同一张立绘，三态由变换与特效表现
+   ========================================================================== */
+
+.wv-whale .wv-figure { transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1); transform-origin: 60% 55%; }
+
+/* 深潜与求助的姿态循环见文件末尾 v7 段（wv-swim / wv-in-help），此处仅关停容器级动画 */
+.wv-whale[data-state="away"] { animation: none; transform: none; }
+
+/* 求助：容器级动画关停，姿态循环由 v7 段负责 */
+.wv-whale[data-state="helping"] { animation: none; transform: none; }
+.wv-whale[data-state="helping"] .wv-figure {
+  animation: wv-call 1.4s ease-in-out infinite;
+}
+@keyframes wv-call {
+  0%, 100% { transform: translateY(-6px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(-3deg); }
+}
+
+/* 喷水（求助与归来时可见） */
+.wv-spray {
+  position: absolute; left: 52%; top: -6px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 5px -8px 0 -1px rgba(255,255,255,0.72), -4px -11px 0 -2px rgba(255,255,255,0.6), 2px -16px 0 -3px rgba(255,255,255,0.48);
+  opacity: 0;
+}
+/* 求助立绘自带喷水，CSS 粒子不再叠加 */
+@keyframes wv-spray-up {
+  0% { transform: translateY(6px) scale(0.5); opacity: 0.2; }
+  45% { opacity: 1; }
+  100% { transform: translateY(-16px) scale(1.2); opacity: 0; }
+}
+
+/* ==========================================================================
+   信封开箱仪式（明信片到达）
+   ========================================================================== */
+
+.wv-mail {
+  position: fixed; inset: 0;
+  z-index: 10000;
+  display: grid; place-items: center;
+  background: radial-gradient(circle at 50% 45%, rgba(16, 30, 44, 0.34), rgba(16, 30, 44, 0.62));
+  animation: wv-mail-fade 0.45s ease-out;
+  cursor: pointer;
+  font-family: "PingFang SC", "Hiragino Sans GB", "Segoe UI", system-ui, sans-serif;
+}
+@keyframes wv-mail-fade { from { opacity: 0; } to { opacity: 1; } }
+.wv-mail.is-file { animation: wv-mail-out 1.1s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+@keyframes wv-mail-out {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.wv-mail-stage { position: relative; width: 330px; height: 250px; }
+.wv-mail.is-file .wv-mail-stage {
+  animation: wv-fly 1.05s cubic-bezier(0.5, 0, 0.75, 0) forwards;
+}
+@keyframes wv-fly {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(38vw, 42vh) scale(0.12) rotate(12deg); opacity: 0; }
+}
+
+/* 信封本体 */
+.wv-envelope {
+  position: absolute; inset: 0;
+  animation: wv-env-drop 0.9s cubic-bezier(0.22, 1.3, 0.4, 1);
+}
+@keyframes wv-env-drop {
+  0% { transform: translateY(-40px) rotate(-6deg); opacity: 0; }
+  60% { opacity: 1; }
+  100% { transform: translateY(0) rotate(0); opacity: 1; }
+}
+.wv-env-back, .wv-env-front, .wv-env-flap {
+  position: absolute; left: 0; right: 0;
+  background: linear-gradient(180deg, #fdf7e9, #f4ead2);
+  border: 1px solid rgba(120, 100, 70, 0.24);
+}
+.wv-env-back { top: 42px; bottom: 0; border-radius: 8px; }
+.wv-env-front {
+  top: 118px; bottom: 0;
+  border-radius: 8px;
+  box-shadow: 0 -2px 10px rgba(90, 70, 40, 0.10);
+  z-index: 3;
+}
+.wv-env-flap {
+  top: 42px; height: 84px;
+  transform-origin: top center;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background: linear-gradient(180deg, #f7ecd6, #eddfc2);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 4;
+}
+.wv-mail.is-open .wv-env-flap { transform: rotateX(178deg); }
+.wv-env-seal {
+  position: absolute; left: 50%; top: 108px;
+  transform: translate(-50%, -50%);
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: rgb(242, 149, 107);
+  color: #fff; font-size: 16px;
+  box-shadow: 0 3px 8px rgba(150, 80, 40, 0.35);
+  z-index: 5;
+  transition: opacity 0.35s ease, transform 0.5s ease;
+}
+.wv-mail.is-open .wv-env-seal {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.4) rotate(120deg);
+  /* 过渡结束后彻底不参与渲染，避免半透明残影压在卡面上 */
+  visibility: hidden;
+  transition: opacity 0.35s ease, transform 0.5s ease, visibility 0s linear 0.5s;
+}
+
+/* 明信片（从信封中升起） */
+.wv-card {
+  position: absolute; left: 12px; right: 12px; top: 62px;
+  background: #fffdf8;
+  border-radius: 12px;
+  border: 1px solid rgba(58, 74, 90, 0.10);
+  box-shadow: 0 14px 34px rgba(20, 40, 60, 0.28);
+  overflow: hidden;
+  transform: translateY(24px) scale(0.94);
+  opacity: 0;
+  transition: transform 0.85s cubic-bezier(0.22, 1.1, 0.36, 1), opacity 0.5s ease;
+  z-index: 2;
+}
+/* 卡片自始至终压在信封各部件之上：此前只有 is-show 阶段才提层级，
+   落下与开封阶段会被前片（z-index 3）盖住半张，文案被切断。 */
+.wv-card { z-index: 8; }
+.wv-mail.is-show .wv-card { transform: translateY(-86px) scale(1); opacity: 1; }
+.wv-card-art {
+  position: relative;
+  height: 118px;
+  overflow: hidden;
+  /* 图未就绪时给一层海色底，避免出现纯白空块 */
+  background: linear-gradient(160deg, #6f9fc4, #33566f);
+}
+.wv-card-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  animation: wv-art-in 0.9s ease-out both;
+}
+@keyframes wv-art-in {
+  from { transform: scale(1.08); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+/* 实心小签。此前用半透明底加 backdrop-filter，在暗色主题与多层叠加下会渲染成
+   一个纯黑方块（用户截图可见），毛玻璃在这种小元素上不值得冒这个风险。 */
+.wv-card-rarity {
+  position: absolute; top: 8px; right: 8px;
+  z-index: 2;
+  font-size: 10px;
+  line-height: 1.6;
+  color: #fff;
+  background: rgb(199, 96, 58);
+  border-radius: 6px;
+  padding: 1px 8px;
+  box-shadow: 0 2px 6px rgba(60, 30, 15, 0.28);
+}
+.wv-card-body { padding: 10px 13px 12px; }
+.wv-card-caption { font-size: 14px; color: rgb(48, 62, 76); line-height: 1.5; }
+.wv-card-stamp {
+  margin-top: 5px;
+  font-size: 10.5px;
+  color: rgba(88, 104, 118, 0.8);
+  font-variant-numeric: tabular-nums;
+}
+.wv-mail-hint {
+  position: absolute; left: 0; right: 0; bottom: -34px;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 1px;
+  opacity: 0;
+  transition: opacity 0.5s ease 0.3s;
+}
+.wv-mail.is-show .wv-mail-hint { opacity: 1; }
+
+
+/* ---------- 行囊徽章（替代叠加在鲸身上的配件，杜绝横杠遮挡） ---------- */
+.wv-meta { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.wv-badges { font-size: 12px; letter-spacing: 2px; line-height: 1; }
+.wv-badges:empty { display: none; }
+.wv-acc { display: none !important; }
+
+
+/* ==========================================================================
+   动作衔接（v6）：摸头反应、相位起势与落势、粒子
+   ========================================================================== */
+
+/* ---- 摸头：挤压回弹（squash & stretch），比单纯缩放有生命感 ---- */
+.wv-whale .wv-figure.is-petted {
+  animation: wv-squish 0.86s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes wv-squish {
+  0%   { transform: scale(1, 1) rotate(0deg); }
+  14%  { transform: scale(1.10, 0.88) rotate(-2deg); }
+  32%  { transform: scale(0.94, 1.09) rotate(2.5deg) translateY(-5px); }
+  50%  { transform: scale(1.05, 0.95) rotate(-1.5deg) translateY(1px); }
+  68%  { transform: scale(0.98, 1.03) rotate(1deg) translateY(-2px); }
+  84%  { transform: scale(1.01, 0.99) rotate(-0.4deg); }
+  100% { transform: scale(1, 1) rotate(0deg); }
+}
+.wv-whale-art { cursor: grab; }
+.wv-whale:active .wv-whale-art { cursor: grabbing; }
+
+/* ---- 送信铺垫：上浮抬头，随后才开箱 ---- */
+.wv-whale .wv-figure.is-delivering {
+  animation: wv-deliver 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes wv-deliver {
+  0%   { transform: translateY(0) rotate(0deg); }
+  30%  { transform: translateY(-14px) rotate(-6deg) scale(1.04); }
+  60%  { transform: translateY(-8px) rotate(3deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+/* ---- 相位切换：起势（反向蓄力）→ 换图 → 落势 ---- */
+
+/* 落势：按目标相位给不同的入场（下潜俯冲扎入 / 归来破水弹起 / 求助窜出） */
+/* 入场动画期间让常态呼吸让位，避免两条动画打架 */
+.wv-whale .wv-figure.is-in,
+.wv-whale .wv-figure.is-out,
+.wv-whale .wv-figure.is-petted,
+.wv-whale .wv-figure.is-delivering { animation-fill-mode: both; }
+
+/* ---- 下潜气泡 ---- */
+.wv-bubble {
+  position: absolute;
+  left: 50%; bottom: 26%;
+  width: var(--sz, 5px); height: var(--sz, 5px);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  pointer-events: none;
+  animation: wv-bubble-up 2.1s ease-out var(--d, 0s) both;
+}
+@keyframes wv-bubble-up {
+  0%   { transform: translate(0, 0) scale(0.6); opacity: 0; }
+  20%  { opacity: 0.95; }
+  100% { transform: translate(var(--dx, 0), -78px) scale(1.15); opacity: 0; }
+}
+
+/* ---- 归来水花 ---- */
+.wv-splash {
+  position: absolute;
+  left: 50%; bottom: 20%;
+  width: 74px; height: 26px;
+  margin-left: -37px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-bottom-color: transparent;
+  pointer-events: none;
+  animation: wv-splash-out 1s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+@keyframes wv-splash-out {
+  0%   { transform: scale(0.2); opacity: 0.95; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+
+/* ==========================================================================
+   注意力对齐与动作可读性（v7）
+
+   设计前提：agent 空闲时用户在读消息 / 打字，鲸应当安静；agent 工作时用户空出手，
+   鲸才是主角。因此 away 不再虚化（虚化被读作"坏了/幽灵"），改为满不透明的清晰
+   游动；home 静置后打盹。
+   ========================================================================== */
+
+/* ---- 深潜：清晰可读的游动循环（不再降透明度） ---- */
+.wv-whale[data-state="away"] .wv-figure {
+  transform: none;
+  animation: wv-swim 7.2s ease-in-out infinite;
+}
+/* 幅度收到原来的一半左右：上下 6px、左右 4px、转体 1.5°。
+   原先 ±12px/±3° 在小尺寸下读作"一直在跳"。 */
+@keyframes wv-swim {
+  0%   { transform: translate(0, 16px) rotate(-1.5deg); }
+  25%  { transform: translate(-4px, 19px) rotate(1deg); }
+  50%  { transform: translate(0, 22px) rotate(-0.5deg); }
+  75%  { transform: translate(4px, 19px) rotate(1.5deg); }
+  100% { transform: translate(0, 16px) rotate(-1.5deg); }
+}
+.wv-whale[data-state="away"] .wv-whale-art {
+  opacity: 0;
+  filter: drop-shadow(0 12px 18px rgba(10, 30, 60, 0.42));
+}
+.wv-whale[data-state="away"] .wv-whale-art.is-on { opacity: 1; }
+
+/* 深潜氛围：水下光束在鲸身后缓慢摆动，交代"这是水下"而非"图坏了" */
+.wv-whale[data-state="away"] .wv-figure::before {
+  content: "";
+  position: absolute;
+  left: -22%; right: -22%; top: -34%; bottom: -10%;
+  background:
+    linear-gradient(196deg, rgba(255, 255, 255, 0.16) 0 6%, transparent 6% 22%),
+    linear-gradient(184deg, rgba(255, 255, 255, 0.10) 0 4%, transparent 4% 26%);
+  pointer-events: none;
+  animation: wv-rays 7s ease-in-out infinite;
+}
+@keyframes wv-rays {
+  0%, 100% { transform: translateX(-4px) skewX(-2deg); opacity: 0.85; }
+  50% { transform: translateX(6px) skewX(2deg); opacity: 0.5; }
+}
+
+/* ---- 打盹：用户在读消息时的安静态 ---- */
+.wv-whale.is-dozing .wv-figure { animation: wv-doze 5.4s ease-in-out infinite; }
+@keyframes wv-doze {
+  0%, 100% { transform: translateY(6px) scale(1, 0.99); }
+  50% { transform: translateY(9px) scale(1.01, 0.97); }
+}
+.wv-whale.is-dozing::after {
+  content: "z";
+  position: absolute;
+  right: 8px; top: 6px;
+  font-size: 13px;
+  color: rgba(120, 150, 175, 0.85);
+  animation: wv-zzz 3.2s ease-out infinite;
+}
+@keyframes wv-zzz {
+  0% { transform: translate(0, 4px) scale(0.7); opacity: 0; }
+  30% { opacity: 0.95; }
+  100% { transform: translate(10px, -20px) scale(1.25); opacity: 0; }
+}
+.wv-whale.is-dozing .wv-whale-tag { opacity: 0.55; }
+
+/* ---- 过渡时间线（与 skin.ts 的 OUT_MS=560 / IN_MS=900 严格对应） ---- */
+/**
+ * 起势：抬头蓄势 → 沉入水中，终点是"完全不可见"。
+ *
+ * 换图（swapArt）正好在这一帧执行。此前起势末尾鲸仍完全可见，四张立绘的头部朝向
+ * 差异很大（居家头向前、深潜头向下），于是观众直接看到姿态跳变——用户的原话是
+ * "本来头向前，突然变成头向下"。transform 连续并不能掩盖图片本身的突变，唯一可靠
+ * 的办法是让换图发生在看不见的时候。
+ */
+.wv-whale .wv-figure.is-out {
+  /* linear + 密集关键帧：极点处才做得出停顿，缓动函数控速做不到 */
+  animation: wv-anticipate 0.56s linear both;
+}
+@keyframes wv-anticipate {
+  /* 以尾为轴起步 */
+  0%   { transform-origin: 50% 78%; transform: translate(0, 0) rotate(0deg) scale(1, 1);              opacity: 1;    filter: blur(0px); }
+  20%  { transform-origin: 50% 76%; transform: translate(1px, -5px) rotate(-2deg) scale(1.02, 0.98);  opacity: 1;    filter: blur(0px); }
+  /* 抬头顶点：以尾为支点把头顶起来 */
+  40%  { transform-origin: 50% 72%; transform: translate(3px, -12px) rotate(-5deg) scale(1.06, 0.94); opacity: 1;    filter: blur(0px); }
+  /* 极点停顿一拍，观众才读得到"它要下去了" */
+  52%  { transform-origin: 50% 60%; transform: translate(3px, -11px) rotate(-4deg) scale(1.05, 0.95); opacity: 1;    filter: blur(0px); }
+  /* 轴心迁到头部：转身开始，沿弧线往回收 */
+  70%  { transform-origin: 50% 34%; transform: translate(1px, 2px) rotate(2deg) scale(1, 1);          opacity: 0.82; filter: blur(0.8px); }
+  /* 加速入水，高速段带 smear */
+  86%  { transform-origin: 50% 28%; transform: translate(-2px, 16px) rotate(4deg) scale(0.93, 1.04);  opacity: 0.3;  filter: blur(3px); }
+  /* 没入：此刻换图（不可见） */
+  100% { transform-origin: 50% 26%; transform: translate(-4px, 30px) rotate(5deg) scale(0.86, 1);     opacity: 0;    filter: blur(5px); }
+}
+
+/* 落势首帧必须与上面 100% 逐属性一致（transform / opacity / filter），否则接缝处仍会跳 */
+/* 下潜落势见文件末尾 v11 段（wv-act-dive） */
+/* 归来落势见文件末尾 v11 段（wv-act-home） */
+.wv-whale[data-state="helping"] .wv-figure.is-in {
+  animation: wv-in-help 1.45s cubic-bezier(0.22, 1.2, 0.36, 1) both;
+}
+@keyframes wv-in-help {
+  /* 求助：从水下窜出水面，急促摆动两下，最后停在上浮位（接 wv-call 循环）。
+     首帧同样接住起势的没入终点，逐属性对齐。 */
+  0%   { transform: translateY(30px) scale(0.86) rotate(4deg); opacity: 0; filter: blur(5px); }
+  14%  { transform: translateY(16px) scale(0.92, 1.06) rotate(1deg); opacity: 0.9; filter: blur(1.6px); }
+  18%  { transform: translateY(20px) scale(0.92, 1.07) rotate(0deg); }
+  40%  { transform: translateY(-22px) scale(1.07, 0.94) rotate(-8deg); }
+  56%  { transform: translateY(-14px) scale(1.01, 0.99) rotate(4deg); }
+  70%  { transform: translateY(-18px) scale(1.02, 0.98) rotate(-5deg); }
+  84%  { transform: translateY(-10px) scale(1) rotate(2deg); }
+  100% { transform: translateY(-6px) rotate(0deg); }
+}
+/* 过渡期间常态循环让位 */
+.wv-whale .wv-figure.is-out,
+.wv-whale .wv-figure.is-in { animation-play-state: running; }
+
+/* ---- 未读信标：可点击才展开仪式 ---- */
+.wv-letter {
+  position: absolute;
+  top: -4px; right: -2px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 7px;
+  border: 1px solid rgba(58, 74, 90, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 253, 248, 0.96);
+  box-shadow: 0 4px 12px rgba(30, 50, 70, 0.22);
+  cursor: pointer;
+  /* 入场动画不用 both 填充：若动画被冻结或跳过（后台标签页、降低动效偏好），
+     both 会把元素永久留在首帧的 scale(0.4)，胶囊小到看不清（实测后台窗口即如此） */
+  animation: wv-letter-in 0.7s cubic-bezier(0.2, 1.4, 0.4, 1), wv-letter-nudge 2.6s ease-in-out 1s infinite;
+}
+@keyframes wv-letter-in {
+  0% { transform: translateY(-9px); opacity: 0; }
+  60% { transform: translateY(2px); opacity: 1; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+@keyframes wv-letter-nudge {
+  0%, 88%, 100% { transform: translateY(0) rotate(0deg); }
+  92% { transform: translateY(-4px) rotate(-7deg); }
+  96% { transform: translateY(-2px) rotate(5deg); }
+}
+.wv-letter:hover { background: #fff; box-shadow: 0 6px 16px rgba(30, 50, 70, 0.3); }
+.wv-letter-icon { font-size: 15px; line-height: 1; }
+.wv-letter-n {
+  font-size: 10.5px;
+  font-variant-numeric: tabular-nums;
+  color: rgb(199, 96, 58);
+}
+.wv-letter-n:empty { display: none; }
+
+/* 角落按钮的未读红点 */
+.wv-corner.has-unread::after {
+  content: "";
+  position: absolute;
+  top: 6px; right: 6px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgb(232, 115, 74);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.9);
+}
+
+
+/* ==========================================================================
+   布局与可读性修正（v8）
+   ========================================================================== */
+
+/* 立绘容器收紧：原 152px 是为最高的下潜姿态预留，居家姿态只有约 108px，
+   顶部空出一大截，导致 ✕ 与信标悬空在半空 */
+.wv-figure { height: 132px; }
+
+/* 信标改成带文字的胶囊，一眼看懂是什么 */
+.wv-letter {
+  top: 2px;
+  right: -8px;
+  gap: 4px;
+  padding: 4px 9px 4px 7px;
+}
+.wv-letter-text {
+  font-size: 11px;
+  line-height: 1;
+  color: rgb(199, 96, 58);
+  white-space: nowrap;
+}
+body[data-ds-dark-theme] .wv-letter {
+  background: rgba(28, 42, 58, 0.96);
+  border-color: rgba(160, 190, 205, 0.2);
+}
+body[data-ds-dark-theme] .wv-letter-text,
+body[data-ds-dark-theme] .wv-letter-n { color: rgb(247, 176, 138); }
+
+
+/* 尊重系统的降低动效偏好：关掉循环类演出，保留状态本身可读 */
+@media (prefers-reduced-motion: reduce) {
+  .wv-whale .wv-figure,
+  .wv-whale[data-state="away"] .wv-figure,
+  .wv-whale.is-dozing .wv-figure,
+  .wv-letter,
+  .wv-whale[data-state="away"] .wv-figure::before { animation: none !important; }
+  .wv-whale-art { transition: none; }
+}
+
+
+/* ==========================================================================
+   姿态等体量归一（v9）
+
+   object-fit: contain 只统一外框，不统一角色的观感大小。各姿态原图长宽比不同，
+   实测渲染后的不透明像素面积：居家 5733（基准）/ 深潜 7744（1.35 倍）/
+   上浮 6859（1.20 倍）/ 睡姿 7402（1.29 倍）——切换时体型会突然变大。
+   按 sqrt(基准/实测) 施加缩放，令四态观感体量一致；原点取底部中心以保持基线。
+   ========================================================================== */
+
+.wv-whale-art {
+  transform-origin: center bottom;
+}
+/* 姿态缩放走变量，才能与 hover 抬升等其它变换共存而不互相覆盖 */
+.wv-whale[data-state="away"] .wv-whale-art { --wv-pose-scale: 0.86; }
+.wv-whale[data-state="helping"] .wv-whale-art { --wv-pose-scale: 0.914; }
+.wv-whale.is-dozing .wv-whale-art { --wv-pose-scale: 0.88; }
+
+
+/* ==========================================================================
+   被宿主模态遮挡时让位（v9）
+
+   dsh 的引导页、设置、确认框会用 z-index 1000 级别的覆盖层盖住整页。实测鲸
+   （z-index 5）上的点击全部被覆盖层吞掉，表现为"点了没反应"。此时鲸必须让位：
+   淡出并交出指针事件，绝不靠抢层级去压住宿主的弹窗。
+   ========================================================================== */
+
+.wv-whale,
+.wv-corner {
+  transition: opacity 0.28s ease;
+}
+/* pointer-events 立即生效，不依赖过渡能否执行——这是让位的关键（绝不能留下
+   一个看得见却点不动的死物）。视觉淡出交给 opacity 过渡：过渡被冻结只发生在
+   后台标签页，那种情况下用户本就看不见。
+   注意不要把 visibility 纳入过渡：它是离散属性，过渡冻结时会停在 visible。 */
+.wv-whale.is-blocked,
+.wv-corner.is-blocked {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+/* ==========================================================================
+   多张明信片一次铺开（v10）
+
+   攒了多张未读时不该逼用户点五遍：信封开封后所有明信片一起飞出、并排铺开，
+   一眼看全，点任意处一并收下。单张仍保留"从信封里升起"的原节奏。
+   ========================================================================== */
+
+.wv-spread {
+  position: fixed;
+  inset: 0;
+  z-index: 7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-content: center;
+  gap: 16px;
+  padding: 6vh 5vw;
+  pointer-events: none;
+}
+/* 铺开视图里的卡片是流式布局，需覆盖信封内那份的绝对定位 */
+.wv-spread .wv-card {
+  position: static;
+  left: auto; right: auto; top: auto;
+  width: 216px;
+  flex: none;
+  opacity: 0;
+  /* 起点：聚在信封位置（略偏下、缩小、无倾斜） */
+  transform: translateY(78px) scale(0.64);
+  transition:
+    opacity 0.5s ease calc(var(--i) * 0.11s),
+    transform 0.85s cubic-bezier(0.2, 1.18, 0.36, 1) calc(var(--i) * 0.11s);
+}
+/* 终点：扇形铺开，居中那张最正，两侧渐次倾斜 */
+.wv-mail.is-show .wv-spread .wv-card {
+  opacity: 1;
+  transform:
+    translateY(calc((var(--i) - (var(--n) - 1) / 2) * (var(--i) - (var(--n) - 1) / 2) * 3px))
+    rotate(calc((var(--i) - (var(--n) - 1) / 2) * 2.6deg));
+}
+/* 收下：整叠一起飞向右下角相册 */
+.wv-mail.is-file .wv-spread .wv-card {
+  transition: opacity 0.6s ease, transform 0.9s cubic-bezier(0.5, 0, 0.75, 0);
+  opacity: 0;
+  transform: translate(36vw, 40vh) scale(0.14) rotate(10deg);
+}
+/* 多张时信封只做"飞出"的起点，展示阶段淡出让位 */
+.wv-mail[data-n]:not([data-n="1"]).is-show .wv-envelope {
+  opacity: 0.28;
+  transform: scale(0.9);
+  transition: opacity 0.6s ease, transform 0.7s ease;
+}
+.wv-mail[data-n]:not([data-n="1"]) .wv-mail-hint { bottom: -46px; }
+
+@media (max-width: 900px) {
+  .wv-spread .wv-card { width: 178px; }
+}
+
+
+/* ==========================================================================
+   动作序列（v11）
+
+   此前起势与落势各一段、总计约 1.5 秒，动作太"薄"，看不出它在干什么。
+   改为落势内部自带一个完整动作再归位（与 skin.ts 的 IN_MS = 1450 严格对应）：
+     下潜：抬头蓄势 → 甩尾下扎 → 没入（冒气泡）→ 稳定进入游动
+     归来：破水跃出（喷水）→ 空中舒展 → 落水压扁（炸水花）→ 回弹 → 归位
+   每段起点都接住上一段终点，保证连续。
+   ========================================================================== */
+
+.wv-whale[data-state="away"] .wv-figure.is-in {
+  animation: wv-act-dive 1.45s linear both;
+}
+@keyframes wv-act-dive {
+  /* 接住起势终点，逐属性一致（含 transform-origin） */
+  0%   { transform-origin: 50% 26%; transform: translate(-4px, 30px) rotate(5deg) scale(0.86, 1);     opacity: 0;    filter: blur(5px); }
+  10%  { transform-origin: 50% 28%; transform: translate(-3px, 26px) rotate(2deg) scale(0.88, 1);     opacity: 0.45; filter: blur(3.4px); }
+  /* 从水下显形，沿弧线往前 */
+  20%  { transform-origin: 50% 32%; transform: translate(-1px, 20px) rotate(-2deg) scale(0.92, 1);    opacity: 0.85; filter: blur(1.6px); }
+  30%  { transform-origin: 50% 40%; transform: translate(2px, 13px) rotate(-6deg) scale(0.95, 0.97);  opacity: 1;    filter: blur(0.4px); }
+  /* 蓄势极点：以头为轴压住，停一拍 */
+  38%  { transform-origin: 50% 30%; transform: translate(3px, 11px) rotate(-7deg) scale(0.96, 1);     opacity: 1;    filter: blur(0px); }
+  /* 甩尾下扎（气泡 620ms ≈ 43% 正落此段），高速带 smear */
+  48%  { transform-origin: 50% 26%; transform: translate(1px, 20px) rotate(5deg) scale(0.99, 0.96);   opacity: 1;    filter: blur(0.7px); }
+  /* 扎到最深 */
+  56%  { transform-origin: 50% 30%; transform: translate(-2px, 25px) rotate(8deg) scale(1, 0.95);     opacity: 1;    filter: blur(0.5px); }
+  /* 回摆，能量逐级衰减（跟随动作） */
+  68%  { transform-origin: 50% 45%; transform: translate(-3px, 21px) rotate(2deg) scale(0.98, 1);     opacity: 1;    filter: blur(0px); }
+  80%  { transform-origin: 50% 55%; transform: translate(-1px, 17px) rotate(-2.5deg) scale(0.99, 1);  opacity: 1;    filter: blur(0px); }
+  92%  { transform-origin: 50% 65%; transform: translate(1px, 16.5px) rotate(-1deg) scale(1, 1);      opacity: 1;    filter: blur(0px); }
+  /* 精确收进游动循环起点（wv-swim 0% = translate(0,16px) rotate(-1.5deg)） */
+  100% { transform-origin: 50% 78%; transform: translate(0, 16px) rotate(-1.5deg) scale(1, 1);        opacity: 1;    filter: blur(0px); }
+}
+
+.wv-whale[data-state="home"] .wv-figure.is-in {
+  animation: wv-act-home 1.45s linear both;
+}
+@keyframes wv-act-home {
+  /* 接住起势终点，逐属性一致 */
+  0%   { transform-origin: 50% 26%; transform: translate(-4px, 30px) rotate(5deg) scale(0.86, 1);      opacity: 0;    filter: blur(5px); }
+  9%   { transform-origin: 50% 30%; transform: translate(-3px, 25px) rotate(3deg) scale(0.88, 1.04);   opacity: 0.5;  filter: blur(3.2px); }
+  /* 水下蓄力：身体拉长，准备冲 */
+  17%  { transform-origin: 50% 40%; transform: translate(0, 18px) rotate(0deg) scale(0.9, 1.08);       opacity: 0.88; filter: blur(2px); }
+  /* 破水：轴心回到尾部，头先出水（高速 smear） */
+  25%  { transform-origin: 50% 70%; transform: translate(4px, 2px) rotate(-6deg) scale(1.04, 0.94);    opacity: 1;    filter: blur(1.2px); }
+  /* 抛物线冲上去，X 持续向前 */
+  33%  { transform-origin: 50% 72%; transform: translate(7px, -26px) rotate(-11deg) scale(1.1, 0.88);  opacity: 1;    filter: blur(0.6px); }
+  42%  { transform-origin: 50% 60%; transform: translate(8px, -42px) rotate(-7deg) scale(1.04, 0.97);  opacity: 1;    filter: blur(0px); }
+  /* 顶点：留一拍舒展 */
+  48%  { transform-origin: 50% 50%; transform: translate(8px, -46px) rotate(-3deg) scale(1.01, 0.99);  opacity: 1;    filter: blur(0px); }
+  /* 下落加速（smear） */
+  56%  { transform-origin: 50% 40%; transform: translate(6px, -24px) rotate(2deg) scale(0.98, 1.03);   opacity: 1;    filter: blur(0.8px); }
+  /* 落水压扁，轴心落到触水处（喷水 880ms ≈ 61%） */
+  62%  { transform-origin: 50% 86%; transform: translate(3px, 12px) rotate(4deg) scale(1.13, 0.85);    opacity: 1;    filter: blur(0.4px); }
+  70%  { transform-origin: 50% 80%; transform: translate(1px, 4px) rotate(2deg) scale(1.02, 0.97);     opacity: 1;    filter: blur(0px); }
+  /* 回弹（第二次水花 1080ms ≈ 74%） */
+  76%  { transform-origin: 50% 76%; transform: translate(0, -8px) rotate(0deg) scale(0.96, 1.05);      opacity: 1;    filter: blur(0px); }
+  /* 余波逐级衰减，别一步到位 */
+  84%  { transform-origin: 50% 78%; transform: translate(-1px, -2px) rotate(-1deg) scale(1.01, 0.99);  opacity: 1;    filter: blur(0px); }
+  92%  { transform-origin: 50% 78%; transform: translate(0, 2px) rotate(0.5deg) scale(1, 1);           opacity: 1;    filter: blur(0px); }
+  100% { transform-origin: 50% 78%; transform: translate(0, 0) rotate(0deg) scale(1, 1);               opacity: 1;    filter: blur(0px); }
+}
+
+/* 跃出顶点的喷水：临时借用喷水元件 */
+.wv-whale .wv-figure.is-breach .wv-spray {
+  opacity: 1;
+  animation: wv-breach-spray 0.9s ease-out;
+}
+@keyframes wv-breach-spray {
+  0%   { transform: translateY(10px) scale(0.3); opacity: 0; }
+  38%  { transform: translateY(-6px) scale(1.1); opacity: 1; }
+  100% { transform: translateY(-22px) scale(1.35); opacity: 0; }
+}
+
+/* 降低动效偏好下不做这些演出 */
+@media (prefers-reduced-motion: reduce) {
+  .wv-whale .wv-figure.is-in,
+  .wv-whale .wv-figure.is-out,
+  .wv-whale .wv-figure.is-breach .wv-spray { animation: none !important; }
+}
+
+
+/* 信标抖几下即安静：常驻抖动会读作"一直在催"（用户反馈） */
+.wv-letter.is-calm { animation: none; }
+
+
+/* ==========================================================================
+   水色氛围层（v12）
+
+   相位变化此前直接改写宿主的 --dsw-alias-bg-* 变量。CSS 变量变更不参与
+   transition，整页底色瞬变，观感就是"闪一下"。改为在对话区叠一层自有的水色，
+   靠 opacity 平滑过渡，既不动宿主变量（零干扰），又能做长时缓动。
+   ========================================================================== */
+
+.wv-tint {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1.4s cubic-bezier(0.4, 0, 0.3, 1);
+  background:
+    radial-gradient(120% 90% at 50% 108%, rgba(96, 158, 176, 0.22), rgba(96, 158, 176, 0) 62%),
+    linear-gradient(180deg, rgba(150, 196, 205, 0) 0%, rgba(120, 176, 190, 0.16) 100%);
+}
+body.wv-skin[data-wv-phase="away"] .wv-tint { opacity: 1; }
+body.wv-skin[data-wv-phase="helping"] .wv-tint {
+  opacity: 1;
+  background:
+    radial-gradient(120% 90% at 50% 108%, rgba(242, 149, 107, 0.16), rgba(242, 149, 107, 0) 62%),
+    linear-gradient(180deg, rgba(247, 200, 170, 0) 0%, rgba(242, 168, 128, 0.12) 100%);
+}
+body.wv-skin[data-ds-dark-theme] .wv-tint {
+  background:
+    radial-gradient(120% 90% at 50% 108%, rgba(28, 68, 92, 0.42), rgba(28, 68, 92, 0) 62%),
+    linear-gradient(180deg, rgba(18, 42, 60, 0) 0%, rgba(20, 50, 70, 0.34) 100%);
+}
+
+/* 气泡层也做淡入淡出，不再靠 display 硬切 */
+.wv-bubbles { opacity: 0; transition: opacity 1.1s ease; }
+body.wv-skin[data-wv-phase="away"] .wv-bubbles { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .wv-tint, .wv-bubbles { transition: none; }
+}
+
+
+/* 认领后的对话区需成为定位祖先，氛围层与鲸才能按它定位 */
+body.wv-skin [data-slot="conversation"].wv-host { position: relative; }
+
+
+/* ==========================================================================
+   hidden 属性必须压过任何 display 声明（v13）
+
+   `hidden` 属性的隐藏效果来自浏览器默认样式 `[hidden] { display: none }`，
+   作者样式里任意一条 `display` 声明都会覆盖它。实测 `.wv-letter` 声明了
+   `display: flex`，于是 `btn.hidden = true` 完全无效——数据早已清空（内存 0 封、
+   磁盘 0 封、权威 0 张），信标却始终挂在界面上，把排查引向数据侧整整数轮。
+
+   这里一次性覆盖本皮肤所有元素，杜绝同类问题再次出现。
+   ========================================================================== */
+
+[class^="wv-"][hidden],
+[class*=" wv-"][hidden] { display: none !important; }
+
+
+/* ==========================================================================
+   跟随与重叠动作（v13）
+
+   主体（.wv-figure）与立绘（.wv-whale-art）分层：立绘用**独立 transform 属性**
+   （rotate / translate）做延迟 90ms 的同向摆动。独立属性与 .wv-whale-art 已有的
+   `transform: translateY(--wv-lift) scale(--wv-pose-scale)` 是叠加关系而非覆盖，
+   所以既不会打断姿态缩放，也不会与 hover 抬升冲突。
+
+   为什么需要它：原来整只鲸是一个刚体，所有部位同一帧到位，动作再准也硬。真实生物
+   的躯干先动、末端后到（follow through），这点时间差正是"柔软"的来源。
+   ========================================================================== */
+
+.wv-whale .wv-figure.is-out .wv-whale-art {
+  animation: wv-sec-out 0.56s linear 0.07s both;
+}
+@keyframes wv-sec-out {
+  0%   { rotate: 0deg;    translate: 0 0; }
+  45%  { rotate: -1.8deg; translate: 0 1.5px; }  /* 主体已抬头，立绘还在追 */
+  75%  { rotate: 1.2deg;  translate: 0 -1px; }
+  100% { rotate: 2deg;    translate: 0 -1.5px; }
+}
+
+.wv-whale .wv-figure.is-in .wv-whale-art {
+  animation: wv-sec-in 1.45s linear 0.09s both;
+}
+@keyframes wv-sec-in {
+  0%   { rotate: 2deg;    translate: 0 -1.5px; } /* 接住 is-out 的次级末态 */
+  16%  { rotate: -1.4deg; translate: 0 1.8px; }
+  34%  { rotate: 2.2deg;  translate: 0 -1.6px; }
+  52%  { rotate: -2.6deg; translate: 0 2px; }    /* 主动作最猛处，末端甩得最开 */
+  68%  { rotate: 1.6deg;  translate: 0 -1.2px; }
+  82%  { rotate: -0.8deg; translate: 0 0.6px; }
+  92%  { rotate: 0.3deg;  translate: 0 -0.2px; }
+  100% { rotate: 0deg;    translate: 0 0; }
+}

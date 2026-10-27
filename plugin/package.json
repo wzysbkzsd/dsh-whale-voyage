@@ -1,0 +1,28 @@
+{
+  "name": "dsh-whale-voyage",
+  "version": "0.0.1",
+  "description": "A companion that watches your agent and turns waiting into collecting. Pure observer: zero interference, zero tokens.",
+  "type": "module",
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "web",
+    "cordis.patch.yml"
+  ],
+  "scripts": {
+    "build": "npm run selfcheck && tsc -p tsconfig.json && tsc -p tsconfig.web.json",
+    "test": "vitest run",
+    "selfcheck": "node tools/selfcheck.cjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "sharp": "^0.35.4",
+    "typescript": "^5.6.0",
+    "vitest": "^3.2.4"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

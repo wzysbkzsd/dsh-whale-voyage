@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>🐋 鲸的远行</title>
+<link rel="stylesheet" href="/whale-voyage/assets/app.css">
+<link rel="icon" href="/whale-voyage/assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<main id="app" class="sea" data-mode="cute" data-phase="home">
+  <!-- 顶栏：标题 + 模式切换 -->
+  <header class="topbar">
+    <div class="brand">🐋 鲸的远行 <span class="brand-sub">Whale Voyage</span></div>
+    <div class="topbar-actions">
+      <span id="home-bond-mini" class="bond-mini"></span>
+      <button id="lang-toggle" class="lang-btn" type="button" aria-label="切换语言 / Switch language">🌐 EN</button>
+    </div>
+  </header>
+
+  <!-- 小家：鲸的房间（羁绊、成长、记忆） -->
+  <section id="panel-nest" class="panel nest">
+    <div class="nest-hero">
+      <div class="nest-portrait" id="nest-portrait-box">
+        <img id="nest-art" src="/whale-voyage/assets/art/pose-sheet-float-lv0.png" alt="whale">
+      </div>
+      <div class="nest-meta">
+        <div class="nest-name"><b id="nest-title">Lan</b><span id="nest-level" class="nest-level">初识</span></div>
+        <div class="nest-bar"><i id="nest-bar-fill"></i></div>
+        <div class="nest-bar-text" id="nest-bar-text">羁绊 0</div>
+        <div class="nest-pet-row">
+          <button id="nest-pet" class="nest-pet" type="button">🫧 摸摸它</button>
+          <span id="nest-hint" class="nest-hint"></span>
+        </div>
+        <p id="nest-bond-note" class="nest-bond-note"></p>
+      </div>
+    </div>
+    <div class="nest-grid">
+      <div class="nest-stat"><b id="nest-voyages">0</b><span>次远行</span></div>
+      <div class="nest-stat"><b id="nest-cards">0</b><span>张明信片</span></div>
+      <div class="nest-stat"><b id="nest-days">1</b><span>天相识</span></div>
+      <div class="nest-stat"><b id="nest-shells">0</b><span>今日贝壳</span></div>
+    </div>
+    <div class="nest-section">
+      <h3>它记得的事</h3>
+      <ul id="nest-memories" class="nest-memories"></ul>
+    </div>
+    <div class="nest-section">
+      <h3>行囊里的东西</h3>
+      <div id="nest-accs" class="nest-accs"></div>
+    </div>
+    <div class="nest-section">
+      <h3>自检信息</h3>
+      <dl id="diag-list" class="diag-list"></dl>
+    </div>
+    <div class="nest-section">
+      <h3>看看它怎么远行</h3>
+      <div class="demo-row">
+        <button id="demo-once" class="demo-btn" type="button">▶︎ 播放一次演示</button>
+        <button id="inbox-clear" class="demo-btn" type="button">🧹 清掉未读提示</button>
+        <span class="demo-note">演示用合成数据完整走一趟：出航 → 深潜 → 归来 → 寄回明信片，只播一次不循环。若右上角的「新明信片」标记不想看了，点「清掉未读提示」即可（明信片本身仍在相册里）。</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 底部：标签页切换 -->
+  <nav class="tabs" role="tablist" aria-label="面板切换">
+    <button class="tab active" data-tab="nest" type="button" role="tab" aria-selected="true" aria-controls="panel-nest"><span data-i18n>🏠 小家</span></button>
+    <button class="tab" data-tab="album" type="button" role="tab" aria-selected="false" aria-controls="panel-album"><span data-i18n>相册</span> <span id="card-count" class="badge">0</span></button>
+    <button class="tab" data-tab="logbook" type="button" role="tab" aria-selected="false" aria-controls="panel-logbook"><span data-i18n>航海日志</span></button>
+  </nav>
+
+  <!-- 面板：相册（图鉴） -->
+  <section id="panel-album" class="panel" hidden>
+    <div class="album-hero">
+      <div id="album-ring" class="album-ring" style="--pct:0"><b>0%</b></div>
+      <div class="album-hero-meta">
+        <h2>航海相册</h2>
+        <p class="album-hero-sub">每一张都来自一次真实的远行</p>
+        <div class="stats">
+          <span id="stat-cards">明信片 0</span>
+          <span id="stat-progress">图鉴 0 / 0</span>
+        </div>
+      </div>
+    </div>
+    <div id="album-grid" class="album-grid"></div>
+  </section>
+
+  <!-- 面板：航海日志 -->
+  <section id="panel-logbook" class="panel" hidden>
+    <div class="panel-head">
+      <h2>航海日志</h2>
+      <div class="stats"><span id="stat-voyages">远行 0 次</span></div>
+      <button id="export-md" class="chip" type="button">⬇ 导出 Markdown</button>
+    </div>
+    <div id="logbook-list" class="logbook-list"></div>
+  </section>
+
+  <!-- 底部状态行 -->
+  <footer class="statusline">
+    <span id="conn-dot" class="dot dot-off" title="连接状态"></span>
+    <span id="conn-text">连接中…</span>
+    <span class="spacer"></span>
+    <span id="threshold-hint" class="hint"></span>
+  </footer>
+</main>
+
+<script type="module" src="/whale-voyage/assets/app.js"></script>
+</body>
+</html>

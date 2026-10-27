@@ -1,0 +1,800 @@
+/* 鲸的远行 — 主界面样式（旅行青蛙式低饱和手绘感；M3 接美术前为纯 CSS 占位演出） */
+
+:root {
+  --deep: #4d6bfe;        /* 官方品牌蓝：鲸身 */
+  --aqua: #9fd8d4;        /* 浅海水青 */
+  --mint: #cdeae4;        /* 薄荷 */
+  --cream: #f7f3e8;       /* 奶油 */
+  --ink: #3a4a5a;         /* 文字墨色 */
+  --coral: #f2956b;       /* 珊瑚橙点缀 */
+  --card: #fffdf7;
+  --shadow: 0 10px 30px rgba(58, 74, 90, 0.14);
+  --radius: 16px;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; margin: 0; }
+
+body {
+  font-family: "PingFang SC", "Hiragino Sans GB", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: linear-gradient(180deg, #dff1ef 0%, var(--cream) 60%, var(--mint) 100%);
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 12px 16px;
+  gap: 10px;
+}
+
+/* ---- 顶栏 ---- */
+.topbar { display: flex; align-items: center; justify-content: space-between; }
+.brand { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
+.brand-sub { font-size: 12px; font-weight: 400; opacity: 0.55; margin-left: 6px; }
+.topbar-actions { display: flex; gap: 8px; }
+
+.chip {
+  border: 1px solid rgba(58, 74, 90, 0.18);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.chip:hover { background: #fff; }
+#app[data-night="1"] { background: linear-gradient(180deg, #22313f 0%, #1b2a33 60%, #17303a 100%); }
+#app[data-night="1"] .brand, #app[data-night="1"] .statusline { color: #d9e6ea; }
+#app[data-night="1"] .chip { background: rgba(27, 42, 51, 0.6); color: #d9e6ea; }
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+/* ---- 鲸成员（真立绘：透明底 PNG，三态换图） ---- */
+
+@keyframes dive {
+  0%, 100% { transform: translateY(40px) scale(0.62) rotate(-6deg); }
+  50% { transform: translateY(48px) scale(0.62) rotate(-11deg); }
+}
+@keyframes shake {
+  0%, 100% { transform: translateY(8px) rotate(0); }
+  25% { transform: translateY(8px) rotate(-4deg); }
+  75% { transform: translateY(8px) rotate(4deg); }
+}
+@keyframes spout {
+  0% { transform: translate(0, 0) scale(0.4); }
+  60% { opacity: 1; }
+  100% { transform: translate(0, -20px) scale(1.25); opacity: 0; }
+}
+@keyframes breach {
+  0% { transform: translateY(28px); }
+  55% { transform: translateY(-14px) rotate(-4deg); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+  50% { transform: translateY(-6px) rotate(1deg); }
+}
+@keyframes ripple {
+  0% { transform: scale(0.5); opacity: 0.9; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+@keyframes drop {
+  0% { transform: translate(-50%, -28px); opacity: 0; }
+  100% { transform: translate(-50%, 0); opacity: 1; }
+}
+@keyframes rise {
+  0% { transform: translate(-50%, 12px); opacity: 0; }
+  100% { transform: translate(-50%, 0); opacity: 1; }
+}
+
+/* ---- 标签页 ---- */
+.tabs { display: flex; gap: 8px; }
+.tab {
+  flex: 1;
+  border: none; background: rgba(255, 255, 255, 0.55);
+  padding: 9px 0;
+  border-radius: 12px;
+  font-size: 14px;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.tab.active { background: #fff; font-weight: 700; box-shadow: 0 4px 12px rgba(58, 74, 90, 0.12); }
+.badge { font-size: 11px; background: var(--coral); color: #fff; border-radius: 999px; padding: 1px 7px; margin-left: 4px; }
+
+/* ---- 面板 ---- */
+.panel {
+  flex: 1.4; overflow: auto;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius);
+  padding: 14px;
+  box-shadow: var(--shadow);
+}
+.panel-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.panel-head h2 { margin: 0; font-size: 16px; }
+.stats { display: flex; gap: 10px; font-size: 12px; opacity: 0.7; }
+
+/* ---- 相册（图鉴） ---- */
+.album-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.postcard {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 10px;
+  border: 1px solid rgba(58, 74, 90, 0.1);
+  box-shadow: 0 4px 10px rgba(58, 74, 90, 0.08);
+}
+.postcard .pc-art {
+  height: 88px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px;
+  position: relative;
+}
+.postcard .pc-art.night { filter: brightness(0.8) saturate(0.8); }
+.postcard .pc-rarity {
+  position: absolute; top: 6px; right: 6px;
+  font-size: 10px; color: #fff;
+  border-radius: 999px; padding: 1px 8px;
+}
+.r-common { background: #9ab3c4; }
+.r-variant { background: #58a06e; }
+.r-rare { background: #5b7de0; }
+.r-ultra { background: #b06ac9; }
+.postcard .pc-caption { font-size: 13px; margin-top: 6px; }
+.postcard .pc-stamp { font-size: 11px; opacity: 0.6; margin-top: 2px; }
+
+/* 未收集：剪影问号（CSS 滤波实现，零美术成本） */
+.postcard.silhouette .pc-art {
+  background: #c7d4dc;
+  color: #8ba0ad;
+  filter: none;
+}
+.postcard.silhouette .pc-art::after {
+  content: "?";
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 34px; font-weight: 700; color: rgba(58, 74, 90, 0.35);
+}
+.postcard.silhouette .pc-caption { opacity: 0.45; }
+
+/* ---- 航海日志 ---- */
+.logbook-list { display: flex; flex-direction: column; gap: 8px; }
+.log-entry {
+  display: flex; gap: 10px; align-items: baseline;
+  background: var(--card);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 13px;
+  border: 1px solid rgba(58, 74, 90, 0.08);
+}
+.log-entry .log-time { font-size: 11px; opacity: 0.55; min-width: 118px; }
+.log-entry .log-icon { min-width: 20px; }
+.log-entry .log-outcome { font-size: 11px; opacity: 0.65; margin-left: auto; }
+
+/* ---- 状态行 ---- */
+.statusline { display: flex; align-items: center; gap: 8px; font-size: 12px; opacity: 0.85; }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: #c33; }
+.dot-on { background: #3c9; }
+.dot-off { background: #e0a24a; animation: pulse 1.2s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: 0.4; } }
+.spacer { flex: 1; }
+.hint { opacity: 0.55; }
+
+/* ---- 分享卡按钮 ---- */
+.pc-share {
+  margin-top: 8px;
+  width: 100%;
+  border: 1px solid rgba(58, 74, 90, 0.16);
+  background: rgba(255, 255, 255, 0.65);
+  color: var(--ink);
+  border-radius: 8px;
+  padding: 4px 0;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.pc-share:hover { background: var(--deep); color: #fff; }
+
+/* 日志条目与专业模式的小鲸头像（奶油底立绘，与卡片底色自然融合） */
+.log-entry .log-avatar {
+  width: 26px; height: 26px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: #f7f3e8;
+  flex: none;
+}
+
+/* 明信片卡面：场景图占满卡面（保留夜色滤镜与稀有度徽标） */
+.postcard .pc-art { overflow: hidden; }
+
+
+/* ---- 子页面板模式（?panel=1：作为主界面右下角弹层内容） ---- */
+body.wv-panel #app { max-width: none; padding: 8px 10px; height: 100dvh; }
+body.wv-panel #open-dsh,
+body.wv-panel .tabs [data-tab="home"] { display: none; }
+body.wv-panel .brand-sub { display: none; }
+body.wv-panel .statusline { display: none; }
+body.wv-panel .panel { background: transparent; box-shadow: none; padding: 4px; }
+
+
+/* ==========================================================================
+   相册与面板视觉重做（v3）：统一海水底、明信片纸感、未收集剪影
+   ========================================================================== */
+
+/* 面板模式的整体底色：与主界面同源的海水渐变（此前深蓝底+白卡对比过硬） */
+body.wv-panel {
+  background: linear-gradient(180deg, #eef6f4 0%, #f7f3e8 58%, #e8f1ee 100%);
+}
+body.wv-panel #app[data-night="1"],
+body.wv-panel #app { background: transparent; }
+body.wv-panel[data-night="1"],
+#app[data-night="1"] ~ * { }
+body.wv-panel .panel { background: transparent; box-shadow: none; }
+body.wv-panel .tabs { gap: 6px; margin-bottom: 2px; }
+body.wv-panel .tab {
+  background: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+  padding: 7px 0;
+  border-radius: 10px;
+}
+body.wv-panel .tab.active { background: #fff; box-shadow: 0 2px 8px rgba(58, 74, 90, 0.10); }
+body.wv-panel .panel-head h2 { display: none; }
+body.wv-panel .brand { font-size: 15px; }
+
+/* 夜间：整体转为深海，卡片随之压暗（不再白卡刺眼） */
+#app[data-night="1"] .postcard { background: rgba(30, 46, 62, 0.92); border-color: rgba(160, 190, 205, 0.14); }
+#app[data-night="1"] .pc-caption { color: rgb(226, 236, 240); }
+#app[data-night="1"] .pc-stamp { color: rgba(198, 214, 224, 0.75); }
+#app[data-night="1"] .pc-share { background: rgba(160, 190, 205, 0.10); color: rgb(214, 228, 235); border-color: rgba(160, 190, 205, 0.18); }
+#app[data-night="1"] .postcard.locked { background: rgba(26, 40, 54, 0.6); }
+
+/* ---- 明信片：纸质卡片 ---- */
+.album-grid { grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: 14px; }
+
+.postcard {
+  background: #fffdf8;
+  border: 1px solid rgba(58, 74, 90, 0.08);
+  border-radius: 14px;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(58, 74, 90, 0.10);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+.postcard.owned:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(58, 74, 90, 0.16); }
+
+.postcard .pc-art {
+  position: relative;
+  height: 104px;
+  border-radius: 0;
+  display: block;
+  overflow: hidden;
+}
+.postcard .pc-body { padding: 9px 11px 4px; }
+.postcard .pc-caption {
+  font-size: 13px;
+  line-height: 1.45;
+  margin: 0;
+  color: rgb(48, 62, 76);
+}
+.postcard .pc-stamp {
+  font-size: 10.5px;
+  line-height: 1.5;
+  margin-top: 4px;
+  color: rgba(88, 104, 118, 0.8);
+  font-variant-numeric: tabular-nums;
+}
+.postcard .pc-stamp b {
+  display: block;
+  font-weight: 600;
+  color: rgba(70, 88, 104, 0.95);
+  letter-spacing: 0.2px;
+}
+
+/* 稀有度：小圆角标签，弱化面积 */
+.postcard .pc-rarity {
+  position: absolute; top: 8px; right: 8px;
+  font-size: 10px; color: #fff;
+  border-radius: 6px; padding: 1px 7px;
+  background: rgba(58, 74, 90, 0.55);
+  backdrop-filter: blur(2px);
+}
+.postcard .pc-count {
+  position: absolute; bottom: 8px; right: 8px;
+  font-size: 10px; color: #fff;
+  background: rgba(30, 44, 58, 0.55);
+  border-radius: 6px; padding: 1px 6px;
+  backdrop-filter: blur(2px);
+}
+
+/* 分享按钮：默认低调，hover 才亮 */
+.postcard .pc-share {
+  margin: 6px 10px 10px;
+  border: 1px solid rgba(58, 74, 90, 0.12);
+  background: rgba(58, 74, 90, 0.04);
+  color: rgba(70, 88, 104, 0.9);
+  border-radius: 8px;
+  padding: 4px 0;
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.postcard .pc-share:hover { background: var(--deep); color: #fff; border-color: transparent; }
+
+/* ---- 未收集：场景剪影（去饱和色系 + 线稿海平线 + 问号水印） ---- */
+.postcard.locked {
+  background: rgba(255, 253, 248, 0.55);
+  border-style: dashed;
+  border-color: rgba(58, 74, 90, 0.14);
+  box-shadow: none;
+}
+.postcard.locked .pc-art {
+  filter: saturate(0.22) brightness(1.04);
+  opacity: 0.65;
+}
+.postcard.locked .pc-horizon {
+  position: absolute; left: 12%; right: 12%; top: 58%;
+  height: 1px;
+  background: rgba(58, 74, 90, 0.26);
+  box-shadow: 0 7px 0 -6px rgba(58, 74, 90, 0.18), 0 14px 0 -6px rgba(58, 74, 90, 0.12);
+}
+.postcard.locked .pc-lock {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px; font-weight: 300;
+  color: rgba(58, 74, 90, 0.32);
+  letter-spacing: 1px;
+}
+.postcard.locked .pc-caption { color: rgba(88, 104, 118, 0.62); padding: 9px 11px 0; }
+.postcard.locked .pc-stamp { color: rgba(110, 126, 140, 0.55); padding: 0 11px 10px; margin-top: 2px; }
+
+/* ---- 统计条 ---- */
+.stats { gap: 12px; font-size: 12px; opacity: 0.8; }
+#stat-progress { font-variant-numeric: tabular-nums; }
+
+
+/* ==========================================================================
+   小家（鲸的房间）与相册提级（v4）
+   ========================================================================== */
+
+/* ---- 顶部羁绊小标 ---- */
+/* 顶栏语言开关：小、不抢眼 */
+.lang-btn {
+  border: none;
+  background: rgba(255, 255, 255, 0.65);
+  border-radius: 8px;
+  padding: 3px 9px;
+  font-size: 12px;
+  cursor: pointer;
+  color: rgb(70, 88, 104);
+}
+.lang-btn:hover { background: rgba(255, 255, 255, 0.9); }
+#app[data-night="1"] .lang-btn { background: rgba(255, 255, 255, 0.12); color: rgb(214, 228, 235); }
+#app[data-night="1"] .lang-btn:hover { background: rgba(255, 255, 255, 0.22); }
+
+/* 开发者区块用 hidden 收起。nest-section 自身虽未设 display，
+   但这条防御保证任何情况下 hidden 都压得住（skin 侧吃过 display 覆盖 hidden 的亏） */
+.nest-section[hidden] { display: none !important; }
+
+.bond-mini {
+  font-size: 12px;
+  color: rgba(70, 88, 104, 0.9);
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(58, 74, 90, 0.10);
+  border-radius: 999px;
+  padding: 3px 11px;
+  font-variant-numeric: tabular-nums;
+}
+#app[data-night="1"] .bond-mini { color: rgba(214, 228, 235, 0.9); background: rgba(30, 46, 62, 0.7); border-color: rgba(160, 190, 205, 0.16); }
+
+/* ---- 小家 ---- */
+.panel.nest { display: flex; flex-direction: column; gap: 14px; }
+
+.nest-hero {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background:
+    radial-gradient(120% 140% at 12% 0%, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0) 60%),
+    linear-gradient(135deg, #e9f4f2 0%, #f7f3e8 52%, #dfeeea 100%);
+  border: 1px solid rgba(58, 74, 90, 0.08);
+  box-shadow: 0 8px 22px rgba(58, 74, 90, 0.10);
+}
+#app[data-night="1"] .nest-hero {
+  background: linear-gradient(135deg, #1b2c3d 0%, #16283a 55%, #12222f 100%);
+  border-color: rgba(160, 190, 205, 0.14);
+}
+
+.nest-portrait { position: relative; width: 116px; flex: none; }
+.nest-portrait img {
+  width: 116px;
+  display: block;
+  filter: drop-shadow(0 8px 14px rgba(29, 52, 128, 0.26));
+  animation: nest-bob 4.2s ease-in-out infinite;
+}
+.nest-portrait img.petted { animation: nest-pet 0.6s cubic-bezier(0.22, 1.3, 0.4, 1); }
+@keyframes nest-bob {
+  0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+  50% { transform: translateY(-6px) rotate(1deg); }
+}
+@keyframes nest-pet {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.09) rotate(-4deg); }
+  100% { transform: scale(1); }
+}
+
+.nest-acc { position: absolute; opacity: 0; transition: opacity 0.4s ease; }
+.panel.nest[data-level="1"] .nest-scarf,
+.panel.nest[data-level="2"] .nest-scarf,
+.panel.nest[data-level="3"] .nest-scarf,
+.panel.nest[data-level="4"] .nest-scarf { opacity: 1; }
+.panel.nest[data-level="2"] .nest-lamp,
+.panel.nest[data-level="3"] .nest-lamp,
+.panel.nest[data-level="4"] .nest-lamp,
+.panel.nest[data-level="2"] .nest-hat,
+.panel.nest[data-level="3"] .nest-hat,
+.panel.nest[data-level="4"] .nest-hat { opacity: 1; }
+.panel.nest[data-level="3"] .nest-medal,
+.panel.nest[data-level="4"] .nest-medal { opacity: 1; }
+
+.nest-meta { flex: 1; min-width: 0; }
+.nest-name { display: flex; align-items: center; gap: 10px; }
+.nest-name b { font-size: 20px; letter-spacing: 0.5px; }
+.nest-level {
+  font-size: 11px;
+  color: #fff;
+  background: linear-gradient(90deg, #5b7de0, #4d6bfe);
+  border-radius: 999px;
+  padding: 2px 10px;
+}
+.nest-bar {
+  margin-top: 10px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(58, 74, 90, 0.10);
+  overflow: hidden;
+}
+.nest-bar i {
+  display: block; height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #7cc7c2, #4d6bfe);
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.nest-bar-text { margin-top: 5px; font-size: 11.5px; opacity: 0.75; font-variant-numeric: tabular-nums; }
+.nest-pet {
+  margin-top: 10px;
+  border: none;
+  background: rgba(77, 107, 254, 0.10);
+  color: rgb(61, 91, 224);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.nest-pet:hover { background: rgb(77, 107, 254); color: #fff; transform: translateY(-1px); }
+
+/* 统计四宫格 */
+.nest-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.nest-stat {
+  text-align: center;
+  padding: 12px 6px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(58, 74, 90, 0.07);
+}
+#app[data-night="1"] .nest-stat { background: rgba(30, 46, 62, 0.72); border-color: rgba(160, 190, 205, 0.12); }
+.nest-stat b { display: block; font-size: 20px; font-variant-numeric: tabular-nums; color: rgb(61, 91, 224); }
+#app[data-night="1"] .nest-stat b { color: rgb(126, 158, 255); }
+.nest-stat span { font-size: 11px; opacity: 0.7; }
+
+/* 记忆与行囊 */
+.nest-section h3 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  opacity: 0.7;
+}
+.nest-memories { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.nest-memories li {
+  position: relative;
+  padding: 9px 13px 9px 30px;
+  font-size: 13px;
+  line-height: 1.55;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.66);
+  border: 1px solid rgba(58, 74, 90, 0.06);
+}
+.nest-memories li::before {
+  content: "🫧";
+  position: absolute; left: 10px; top: 9px;
+  font-size: 12px;
+  opacity: 0.85;
+}
+#app[data-night="1"] .nest-memories li { background: rgba(30, 46, 62, 0.66); border-color: rgba(160, 190, 205, 0.10); }
+
+.nest-accs { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 10px; }
+.nest-acc-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 11px;
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.66);
+  border: 1px solid rgba(58, 74, 90, 0.07);
+  font-size: 12px;
+}
+.nest-acc-item.locked { background: rgba(255, 255, 255, 0.3); border-style: dashed; opacity: 0.6; }
+.nest-acc-icon { font-size: 17px; }
+#app[data-night="1"] .nest-acc-item { background: rgba(30, 46, 62, 0.66); border-color: rgba(160, 190, 205, 0.10); }
+
+/* ---- 相册 hero：进度环 ---- */
+.album-hero {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background:
+    radial-gradient(120% 140% at 90% 0%, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0) 62%),
+    linear-gradient(120deg, #eaf4f2 0%, #f7f3e8 60%, #e3efec 100%);
+  border: 1px solid rgba(58, 74, 90, 0.08);
+}
+#app[data-night="1"] .album-hero {
+  background: linear-gradient(120deg, #1b2c3d, #142434);
+  border-color: rgba(160, 190, 205, 0.14);
+}
+.album-ring {
+  position: relative;
+  width: 66px; height: 66px;
+  flex: none;
+  border-radius: 50%;
+  background: conic-gradient(#4d6bfe calc(var(--pct) * 1%), rgba(58, 74, 90, 0.12) 0);
+  display: grid; place-items: center;
+}
+.album-ring::after {
+  content: "";
+  position: absolute; inset: 6px;
+  border-radius: 50%;
+  background: #fffdf8;
+}
+#app[data-night="1"] .album-ring::after { background: #16283a; }
+.album-ring b {
+  position: relative;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  color: rgb(61, 91, 224);
+}
+#app[data-night="1"] .album-ring b { color: rgb(126, 158, 255); }
+.album-hero-meta h2 { margin: 0; font-size: 17px; letter-spacing: 0.5px; }
+.album-hero-sub { margin: 3px 0 7px; font-size: 12px; opacity: 0.65; }
+
+/* 卡片入场：错落浮现 */
+.album-grid .postcard { animation: pc-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.album-grid .postcard:nth-child(1) { animation-delay: 0.02s; }
+.album-grid .postcard:nth-child(2) { animation-delay: 0.06s; }
+.album-grid .postcard:nth-child(3) { animation-delay: 0.10s; }
+.album-grid .postcard:nth-child(4) { animation-delay: 0.14s; }
+.album-grid .postcard:nth-child(5) { animation-delay: 0.18s; }
+.album-grid .postcard:nth-child(6) { animation-delay: 0.22s; }
+.album-grid .postcard:nth-child(n+7) { animation-delay: 0.26s; }
+@keyframes pc-in {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.postcard.owned .pc-art { transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+.postcard.owned:hover .pc-art { transform: scale(1.06); }
+
+
+/* ---------- 配色一致性与防闪修正（v5） ---------- */
+
+/* 小家立绘：设定图姿态，尺寸自适应，不再叠加配件 */
+.nest-portrait { width: 132px; position: relative; }
+.nest-portrait img { width: 132px; }
+.nest-acc { display: none !important; }
+
+/* 面板整体配色：浅色主题下统一奶油海水；深色主题下整体深海（不再浅底深卡） */
+body.wv-panel { background: linear-gradient(180deg, #eef6f4 0%, #f7f3e8 58%, #e8f1ee 100%); }
+body.wv-panel:has(#app[data-night="1"]) {
+  background: linear-gradient(180deg, #16283a 0%, #12202e 60%, #101c28 100%);
+}
+#app[data-night="1"] .nest-hero { border-color: rgba(160, 190, 205, 0.16); }
+#app[data-night="1"] .nest-stat b { color: rgb(140, 172, 255); }
+#app[data-night="1"] .nest-stat span,
+#app[data-night="1"] .nest-bar-text { color: rgba(214, 228, 235, 0.78); }
+#app[data-night="1"] .nest-section h3 { color: rgba(214, 228, 235, 0.7); }
+#app[data-night="1"] .tab { background: rgba(30, 46, 62, 0.7); color: rgb(222, 233, 238); }
+#app[data-night="1"] .tab.active { background: rgb(38, 56, 74); }
+#app[data-night="1"] .brand { color: rgb(226, 236, 240); }
+
+/* 浅色主题下的小家统计文字对比度提升（此前灰底灰字看不清） */
+.nest-stat span { color: rgba(70, 88, 104, 0.85); }
+.nest-bar-text { color: rgba(70, 88, 104, 0.85); opacity: 1; }
+.nest-section h3 { color: rgba(70, 88, 104, 0.8); opacity: 1; }
+
+/* 卡片入场动画只在首次渲染播放（配合 JS 签名防重建，避免持续闪烁） */
+.album-grid.settled .postcard { animation: none !important; }
+
+
+/* ---------- 小家：摸头反应与羁绊说明（v6） ---------- */
+
+.nest-portrait img.petted { animation: nest-squish 0.86s cubic-bezier(0.22, 1, 0.36, 1); }
+@keyframes nest-squish {
+  0%   { transform: scale(1, 1) rotate(0deg); }
+  14%  { transform: scale(1.10, 0.88) rotate(-2deg); }
+  32%  { transform: scale(0.94, 1.09) rotate(2.5deg) translateY(-6px); }
+  50%  { transform: scale(1.05, 0.95) rotate(-1.5deg) translateY(1px); }
+  68%  { transform: scale(0.98, 1.03) rotate(1deg) translateY(-2px); }
+  84%  { transform: scale(1.01, 0.99) rotate(-0.4deg); }
+  100% { transform: scale(1, 1) rotate(0deg); }
+}
+
+.nest-heart {
+  position: absolute;
+  left: 50%; bottom: 34%;
+  font-style: normal;
+  font-size: 14px;
+  color: rgb(242, 149, 107);
+  pointer-events: none;
+  animation: nest-heart-up 1.4s ease-out var(--d, 0s) both;
+}
+@keyframes nest-heart-up {
+  0%   { transform: translate(0, 0) scale(0.6); opacity: 0; }
+  25%  { opacity: 1; }
+  100% { transform: translate(var(--dx, 0), -62px) scale(1.15); opacity: 0; }
+}
+
+.nest-pet-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+.nest-pet { margin-top: 0; }
+.nest-hint {
+  font-size: 11.5px;
+  color: rgba(70, 88, 104, 0.75);
+  opacity: 0;
+}
+.nest-hint.show { animation: nest-hint 2.4s ease-out both; }
+@keyframes nest-hint {
+  0% { opacity: 0; transform: translateX(-4px); }
+  15% { opacity: 1; transform: translateX(0); }
+  75% { opacity: 1; }
+  100% { opacity: 0; }
+}
+#app[data-night="1"] .nest-hint { color: rgba(214, 228, 235, 0.75); }
+
+.nest-bond-note {
+  margin: 7px 0 0;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: rgba(70, 88, 104, 0.7);
+}
+#app[data-night="1"] .nest-bond-note { color: rgba(214, 228, 235, 0.68); }
+
+
+/* ---------- 自检信息 ---------- */
+
+.diag-list {
+  margin: 0;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 5px 14px;
+  font-size: 11.5px;
+  line-height: 1.6;
+}
+.diag-list dt { color: rgba(70, 88, 104, 0.7); white-space: nowrap; }
+.diag-list dd {
+  margin: 0;
+  color: rgb(48, 62, 76);
+  font-variant-numeric: tabular-nums;
+  word-break: break-all;
+}
+#app[data-night="1"] .diag-list dt { color: rgba(214, 228, 235, 0.7); }
+#app[data-night="1"] .diag-list dd { color: rgb(226, 236, 240); }
+
+/* ---------- 演示开关（v10） ---------- */
+
+.demo-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.demo-btn {
+  border: 1px solid rgba(77, 107, 254, 0.28);
+  background: rgba(77, 107, 254, 0.10);
+  color: rgb(61, 91, 224);
+  border-radius: 999px;
+  padding: 7px 16px;
+  font-size: 12.5px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s ease, transform 0.15s ease, opacity 0.2s ease;
+}
+.demo-btn:hover:not(:disabled) { background: rgb(77, 107, 254); color: #fff; transform: translateY(-1px); }
+.demo-btn:disabled { opacity: 0.55; cursor: default; }
+.demo-note {
+  flex: 1;
+  min-width: 180px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: rgba(70, 88, 104, 0.72);
+}
+#app[data-night="1"] .demo-note { color: rgba(214, 228, 235, 0.7); }
+#app[data-night="1"] .demo-btn { color: rgb(140, 172, 255); border-color: rgba(140, 172, 255, 0.3); background: rgba(77, 107, 254, 0.16); }
+
+
+/* ==========================================================================
+   降低动效与窄屏适配（v14）
+
+   此前这两项只在 skin.css 里做了，app.css 一处都没有——同一个产品的两个界面
+   对无障碍与小尺寸的态度不一致。
+
+   写这段时先把选择器逐个对着 index.html 与 app.ts 核了一遍：初版用的
+   .wrap / .stat-grid / .whale-wrap / .ripple / .toast / .card-modal 在这个页面
+   全都不存在（是 v2 独立海面页时代的名字），规则等于白写。下面只保留实际存在的。
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  /* 循环动画全部停下；一次性入场动画也不必保留 */
+  .nest-portrait img,
+  .nest-portrait img.petted,
+  .album-grid .postcard,
+  .album-ring,
+  .dot-off,
+  .nest-heart { animation: none !important; }
+
+  /* 过渡收敛到不产生位移的属性 */
+  .postcard,
+  .tab,
+  .demo-btn,
+  .nest-acc-item,
+  .pc-share { transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important; }
+
+  /* hover 的位移与缩放取消，指针经过时不再跳动 */
+  .postcard:hover,
+  .postcard:hover .pc-art { transform: none !important; }
+}
+
+/* ---------- 窄屏：面板可被拖窄，也可能开在小屏上 ---------- */
+
+@media (max-width: 560px) {
+  .panel { padding: 12px 12px 72px; }
+
+  /* 相册每行两张；再窄邮戳就读不清了 */
+  .album-grid { grid-template-columns: repeat(auto-fill, minmax(126px, 1fr)); gap: 8px; }
+
+  /* 统计四宫格改两列，数字不至于被压到换行 */
+  .nest-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* 小家页立绘与文字改上下排布 */
+  .nest-hero { flex-direction: column; align-items: center; text-align: center; }
+  .nest-portrait { width: 96px; }
+
+  /* 日志时间列放弃固定宽度，否则正文只剩一条缝 */
+  .log-entry { flex-direction: column; gap: 2px; }
+  .log-entry .log-time { min-width: 0; }
+
+  /* 三个标签要排得下 */
+  .tabs { gap: 4px; }
+  .tab { font-size: 12px; padding: 7px 8px; }
+
+  /* 演示按钮与说明改上下排 */
+  .demo-row { flex-direction: column; align-items: stretch; }
+
+  /* 自检信息改单列，键值不挤在一起 */
+  .diag-list { grid-template-columns: 1fr; gap: 1px 0; }
+  .diag-list dt { margin-top: 6px; }
+}
+
+@media (max-width: 380px) {
+  /* 极窄：相册与统计都退成单列，保证内容完整可读 */
+  .album-grid { grid-template-columns: 1fr; }
+  .nest-grid { grid-template-columns: 1fr; }
+}
