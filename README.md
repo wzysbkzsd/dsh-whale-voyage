@@ -46,7 +46,7 @@ Whale Voyage 在对话区养了一只小鲸鱼。agent 在干活的时候，它�
 
 ```bash
 # 克隆本项目
-git clone https://github.com/vulcan/dsh-whale-voyage.git
+git clone https://github.com/wzysbkzsd/dsh-whale-voyage.git
 cd dsh-whale-voyage/plugin
 
 # 安装依赖并构建
