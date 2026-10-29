@@ -47,6 +47,10 @@ GitHub：https://github.com/wzysbkzsd/dsh-whale-voyage
 
 ---
 
+另说一句：如果你已经装了 dsh，但卡在环境、模型配置或者插件权限上，可以找我做付费诊断和落地，每月限 3 单，[说明在这里](./OFFER.md)。我做这个插件踩过的坑基本就是你会踩的那些。不接自动养号、自动刷评论那类需求。
+
+---
+
 ## 即刻版（更短、更碎碎念）
 
 等 agent 跑代码等到焦虑，于是我在对话框旁边养了只鲸鱼 🐋
@@ -62,6 +66,8 @@ GitHub：https://github.com/wzysbkzsd/dsh-whale-voyage
 
 开源了👇
 https://github.com/wzysbkzsd/dsh-whale-voyage
+
+装 dsh 卡住了也可以找我做诊断，每月限 3 单（说明在仓库 docs/OFFER.md）。
 
 ---
 
@@ -83,6 +89,8 @@ https://github.com/wzysbkzsd/dsh-whale-voyage
 
 开源了！有同样等 AI 等到焦虑的姐妹一定要试试👇
 https://github.com/wzysbkzsd/dsh-whale-voyage
+
+（装不上、或者想要一条只读的内容流水线，可以找我做付费诊断和落地，每月限 3 单，说明在仓库 docs/OFFER.md）
 
 ---
 
