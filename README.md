@@ -57,7 +57,7 @@ Whale Voyage 在对话区养了一只小鲸鱼。agent 在干活的时候，它�
 
 ## 安装
 
-前置：你已经装好了 dsh。
+前置：你已经装好了 dsh，并且有 pnpm（`dsh plugin` 会把参数转发给 pnpm；没有的话先执行 `corepack enable && corepack prepare pnpm@latest --activate`）。
 
 ```bash
 # 克隆本项目
