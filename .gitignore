@@ -5,3 +5,4 @@ dist/
 .DS_Store
 dsh-whale-voyage-restore.mjs
 web/app.js
+docs/gif-frame-*.png
