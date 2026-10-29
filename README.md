@@ -74,6 +74,8 @@ dsh plugin link .
 
 然后重启 dsh，对话区右下角应该就能看到海面和鲸鱼了。
 
+起不来、端口被占、模型报 `MISSING_CREDENTIAL`？先看这份免费自查：[TROUBLESHOOT.md](docs/TROUBLESHOOT.md)。
+
 想先看看效果不想装？启动 dsh 后访问 `http://127.0.0.1:你的端口/whale-voyage?demo=1`，会回放一次完整的航次演示。
 
 ---
