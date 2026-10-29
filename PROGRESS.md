@@ -34,7 +34,7 @@
 ## 本机环境备忘
 
 - Node v22.17.1 / pnpm 11.22.0（corepack 启用）；dsh 经 `npx -y @deepseek-ai/dsh web --port 3199` 启动
-- 插件以 pnpm link 安装于 profile web；仓库路径变更需重新 `dsh plugin add`
+- 插件以 pnpm link 安装于 profile web；仓库路径变更需重新 `dsh plugin --profile web add`
 - 采样与验证脚本：`scripts/sample-events.mjs`（SSE+RPC 触发采样）、`/tmp/wv-verify.mjs`（状态快照验证，可按需移入 scripts/）
 - **进程清理教训**：按端口杀进程需核对 COMMAND 与 PID 后逐个验证（lsof 会列出客户端连接；`ps -p` 多 PID 需逗号分隔）
 

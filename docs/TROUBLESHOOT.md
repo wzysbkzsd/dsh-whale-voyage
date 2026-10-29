@@ -102,6 +102,8 @@ dsh --profile web --dump-config
 
 **link 安装的插件有个隐蔽坑**：profile 里是软链（`node_modules/<插件名> → 源码目录`）。源码目录被移走或改名后，软链悬空，表现为启动崩溃，而不是提示"插件找不到"。用 `dsh plugin --profile web add <包名>` 重新挂一次即可。
 
+**另一个坑**：`dsh plugin` 必须带 `--profile`，漏了会直接报 `required option '--profile <name>' not specified`。本项目早期 README 漏写过，已修正；如果你是从旧版本复制的命令，注意补上。
+
 ---
 
 ## 6. 确认权限模式

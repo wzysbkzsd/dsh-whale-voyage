@@ -68,8 +68,8 @@ cd dsh-whale-voyage/plugin
 npm install
 npm run build
 
-# 链接到 dsh
-dsh plugin link .
+# 链接到 dsh（必须带 --profile，否则会报 required option）
+dsh plugin --profile web link .
 ```
 
 然后重启 dsh，对话区右下角应该就能看到海面和鲸鱼了。

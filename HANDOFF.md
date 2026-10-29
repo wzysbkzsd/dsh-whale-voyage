@@ -30,7 +30,7 @@ npm run build         # 预期 tsc 零错误，产出 lib/
 ## 三、环境要求
 
 - Node ≥ 22（dsh 以原生 ESM 加载插件）
-- pnpm：`corepack enable && corepack prepare pnpm@latest --activate`（`dsh plugin add` 依赖）
+- pnpm：`corepack enable && corepack prepare pnpm@latest --activate`（`dsh plugin --profile web add` 依赖）
 - dsh：`npx -y @deepseek-ai/dsh web --port 3199`（首次执行自动创建 profile web）
 - DeepSeek API Key：仅"完整事件流采样"需要（Web UI 的 Models 页或启动环境变量配置；无 Key 也可开发与测试，航次会以 error 收场但仍产生完整会话事件）
 
