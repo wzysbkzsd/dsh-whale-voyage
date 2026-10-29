@@ -15,6 +15,10 @@
   <img src="https://img.shields.io/badge/platform-dsh-orange.svg" alt="Platform">
 </p>
 
+<p align="center">
+  <sub>装不上？先跑 <a href="tools/preflight">只读体检</a> · 需要有人帮你落地？<a href="docs/OFFER.md">付费服务</a>（每月 3 单）</sub>
+</p>
+
 ---
 
 ## 这是什么
