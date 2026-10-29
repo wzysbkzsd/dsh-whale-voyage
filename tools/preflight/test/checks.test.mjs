@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, writeFile, rm, symlink } from 'node:fs/promises';
+import { mkdtemp, mkdir, writeFile, readFile, rm, symlink } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -19,6 +19,7 @@ import {
   runChecks,
 } from '../src/checks.mjs';
 import { summarize, renderReport } from '../src/report.mjs';
+import { renderHandoff } from '../src/handoff.mjs';
 
 const run = promisify(execFile);
 
@@ -194,4 +195,45 @@ test('修复闭环：按报告建议处理后面板全绿', async () => {
   const fixed = await runChecks({ home, workspace: home, port, env: {} });
   const remaining = fixed.filter((f) => f.level === 'fail' || f.level === 'warn');
   assert.deepEqual(remaining.map((f) => f.id), [], `仍有未清除项：${remaining.map((f) => f.title).join('；')}`);
+});
+
+test('交接单包含客户、结论、待办与操作说明', () => {
+  const findings = [
+    { id: 'a', level: 'fail', title: '坏掉了', detail: '原因', fix: '这样修' },
+    { id: 'b', level: 'ok', title: '好着', detail: '' },
+  ];
+  const md = renderHandoff(findings, { home: 'C:/h' }, { customer: '张三', dateStr: '2026-10-29' });
+  assert.match(md, /客户：张三/);
+  assert.match(md, /2026-10-29/);
+  assert.match(md, /1 项失败/);
+  assert.match(md, /还需要你处理/);
+  assert.match(md, /\*\*坏掉了\*\*：这样修/);
+  assert.match(md, /dsh web --port 0/);
+  assert.match(md, /plugin --profile web remove/);
+  assert.match(md, /20:00–22:00/);
+  assert.doesNotMatch(md, /undefined/);
+});
+
+test('全绿时交接单写明无需处理', () => {
+  const md = renderHandoff([{ id: 'a', level: 'ok', title: '好', detail: '' }], {}, {});
+  assert.match(md, /无。当前没有失败或警告项/);
+  assert.match(md, /客户：________/);
+});
+
+test('说明里的竖线被替换，不破坏表格', () => {
+  const md = renderHandoff([{ id: 'a', level: 'ok', title: 'T', detail: 'a|b' }], {}, {});
+  assert.match(md, /\| T \| 通过 \| a\/b \|/);
+});
+
+test('CLI --handoff 生成交接单文件', async () => {
+  const dir = await tmp();
+  const home = join(dir, 'home');
+  await makeProfile(home);
+  const out = join(dir, 'out', 'HANDOFF.md');
+  await run(process.execPath, ['src/index.mjs', '--home', home, '--port', '1', '--handoff', out, '--customer', '李四'], {
+    cwd: fileURLToPath(new URL('..', import.meta.url)),
+  }).catch((e) => e);
+  const md = await readFile(out, 'utf8');
+  assert.match(md, /客户：李四/);
+  assert.match(md, /环境交接单/);
 });

@@ -18,11 +18,12 @@ node tools/preflight/src/index.mjs --home ~/.dsh --port 8899 --json
 | `--workspace <dir>` | 工作区，用于检查 AGENTS.md |
 | `--port <n>` | 要检查的端口，默认 8899 |
 | `--json` | 输出 JSON，便于二次处理 |
+| `--handoff <file>` | 额外生成客户交接单（markdown） |
+| `--customer <name>` | 交接单上的客户名 |
 
 有失败项时退出码为 1，便于脚本判断。
 
 ## 检查什么
-
 1. Node 版本是否 ≥ 22（低于 22 常见表现是命令零输出，没有报错）
 2. DSH_HOME 是否存在、有哪些 profile
 3. profile 的 `cordis.patch.yml` 与 bundle 链
