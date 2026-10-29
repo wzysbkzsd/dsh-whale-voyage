@@ -155,3 +155,43 @@ test('CLI 在 DSH_HOME 缺失时退出码为 1 并输出 JSON', async () => {
   const parsed = JSON.parse(error.stdout);
   assert.ok(Array.isArray(parsed.findings));
 });
+
+test('修复闭环：按报告建议处理后面板全绿', async () => {
+  const home = await tmp();
+  const profile = await makeProfile(home);
+  const mods = join(profile, 'node_modules');
+  await mkdir(mods, { recursive: true });
+  const target = join(home, 'plugin-src');
+  await mkdir(target);
+  await symlink(target, join(mods, 'broken-plugin'), 'junction');
+  await rm(target, { recursive: true, force: true });
+
+  await writeFile(
+    join(home, '.credentials.yaml'),
+    'version: 1\nrecords:\n  client-connection/browser-session:\n    kind: grant\n',
+    'utf8',
+  );
+
+  const server = net.createServer();
+  await new Promise((r) => server.listen(0, '127.0.0.1', r));
+  const port = server.address().port;
+
+  const broken = await runChecks({ home, workspace: home, port, env: { DSH_PERMISSION_MODE: 'danger-full-access' } });
+  const ids = broken.filter((f) => f.level === 'fail' || f.level === 'warn').map((f) => f.id);
+  for (const id of ['credentials', 'plugins', 'port', 'permission', 'workspace']) {
+    assert.ok(ids.includes(id), `应当先报出 ${id}`);
+  }
+
+  await mkdir(target);
+  await writeFile(
+    join(home, '.credentials.yaml'),
+    'version: 1\nrecords:\n  model/deepseek-official:\n    kind: api-key\n    payload:\n      secret: sk-test\n',
+    'utf8',
+  );
+  await writeFile(join(home, 'AGENTS.md'), '# 指令\n', 'utf8');
+  await new Promise((r) => server.close(r));
+
+  const fixed = await runChecks({ home, workspace: home, port, env: {} });
+  const remaining = fixed.filter((f) => f.level === 'fail' || f.level === 'warn');
+  assert.deepEqual(remaining.map((f) => f.id), [], `仍有未清除项：${remaining.map((f) => f.title).join('；')}`);
+});

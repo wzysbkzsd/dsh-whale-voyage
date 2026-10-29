@@ -80,7 +80,7 @@ dsh plugin link .
 node tools/preflight/src/index.mjs --workspace .
 ```
 
-仍然不行再看免费自查：[TROUBLESHOOT.md](docs/TROUBLESHOOT.md)。
+对应修法见 [修复手册](docs/REMEDIATION.md)；仍然不行再看免费自查：[TROUBLESHOOT.md](docs/TROUBLESHOOT.md)。
 
 想先看看效果不想装？启动 dsh 后访问 `http://127.0.0.1:你的端口/whale-voyage?demo=1`，会回放一次完整的航次演示。
 

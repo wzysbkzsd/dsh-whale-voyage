@@ -8,6 +8,8 @@
 node tools/preflight/src/index.mjs --workspace /你的项目路径
 ```
 
+报告里的每一项，修法在 [修复手册](REMEDIATION.md) 里一一对应。
+
 > 本文里的命令和路径来自 dsh 0.2.1-rc.2 的实测（Windows）与默认 profile 结构；不是从文档抄的。
 
 ---
