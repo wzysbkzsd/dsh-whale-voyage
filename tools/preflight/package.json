@@ -1,0 +1,14 @@
+{
+  "name": "dsh-preflight",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "dsh 环境体检：只读检查，输出可交付的诊断报告。不修改任何文件。",
+  "scripts": {
+    "test": "node --test test/checks.test.mjs",
+    "check": "node src/index.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
