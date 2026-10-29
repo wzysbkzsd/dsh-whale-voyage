@@ -74,6 +74,8 @@ dsh plugin --profile web link .
 
 然后重启 dsh，对话区右下角应该就能看到海面和鲸鱼了。
 
+上面三步已在干净目录实测通过：`npm install` → `npm run build`（含自查与两套 tsc）→ 63/63 测试 → 链接进独立 DSH_HOME 成功。
+
 起不来、端口被占、模型报 `MISSING_CREDENTIAL`？先跑一遍只读体检（检查 Node 版本、profile、凭据、插件软链、端口、权限模式）：
 
 ```bash
